@@ -1,6 +1,7 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
+import re
 
 from config import db
 
@@ -16,8 +17,8 @@ class Guest(db.Model, SerializerMixin):
     phone_number = db.Column(db.String)
 
     # relationships
-    food = db.relationship("Food", back_populates="guests", cascade="all, delete-orphan")
-    parties = association_proxy("food", "party")
+    foods = db.relationship("Food", back_populates="guest", cascade="all, delete-orphan")
+    parties = association_proxy("foods", "party")
 
     # serialization rules
     
@@ -66,7 +67,7 @@ class Party(db.Model, SerializerMixin):
     
     # relationships
     foods = db.relationship("Food", back_populates="party", cascade="all, delete-orphan")
-    guests = association_proxy("food", "guest")
+    guests = association_proxy("foods", "guest")
 
     # serialization rules
     serialize_rules = ("-foods", "-guests")

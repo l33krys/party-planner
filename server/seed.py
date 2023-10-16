@@ -29,8 +29,7 @@ def create_parties():
     for _ in range(3):
         p = Party(
             name=fake.name(),
-            location=fake.location.streetAddress(),
-            date=fake.date()
+            location=fake.address()
         )
         parties.append(p)
         
@@ -62,30 +61,30 @@ if __name__ == '__main__':
         Party.query.delete()
         Food.query.delete()
 
-        print("Seeding guests...")
-        guests = create_guests()
-        db.session.add_all(guests)
-        db.session.commit()
-
-        # print("Creating Guests...")
-        # morgan = Guest(name="Morgan", email="morgan@email.com", phone_number="123-123-0000")
-        # jason = Guest(name="Jason", email="jason@email.com", phone_number="123-123-0000")
-        # oliver = Guest(name="Oliver", email="oliver@email.com", phone_number="123-123-0000")
-        # vanessa = Guest(name="Vanessa", email="vanessa@email.com", phone_number="123-123-0000")
-        # joe = Guest(name="Joe", email="joe@email.com", phone_number="123-123-0000")
-        # rae = Guest(name="Rae", email="rae@email.com", phone_number="123-123-0000")
-        # madi = Guest(name="Madi", email="madi@email.com", phone_number="123-123-0000")
-        # jazlin = Guest(name="Jazlin", email="jazlin@email.com", phone_number="123-123-0000")
-        # jenna = Guest(name="Jenna", email="jenna@email.com", phone_number="123-123-0000")
-        # anthony = Guest(name="Anthony", email="anthony@email.com", phone_number="123-123-0000")
-        # molly = Guest(name="Molly", email="molly@email.com", phone_number="123-123-0000")
-        # jia = Guest(name="Jia", email="jia@email.com", phone_number="123-123-0000")
-        # krystle = Guest(name="Krystle", email="krystle@email.com", phone_number="123-123-0000")
-        # aaron = Guest(name="Aaron", email="aaron@email.com", phone_number="123-123-0000")
-        # guests = [morgan, jason, oliver, vanessa, joe, rae, madi, jazlin, jenna, anthony, molly, jia, krystle, aaron]
-
+        # print("Seeding guests...")
+        # guests = create_guests()
         # db.session.add_all(guests)
         # db.session.commit()
+
+        print("Creating Guests...")
+        morgan = Guest(name="Morgan", email="morgan@email.com", phone_number="123-123-0000")
+        jason = Guest(name="Jason", email="jason@email.com", phone_number="123-123-0000")
+        oliver = Guest(name="Oliver", email="oliver@email.com", phone_number="123-123-0000")
+        vanessa = Guest(name="Vanessa", email="vanessa@email.com", phone_number="123-123-0000")
+        joe = Guest(name="Joe", email="joe@email.com", phone_number="123-123-0000")
+        rae = Guest(name="Rae", email="rae@email.com", phone_number="123-123-0000")
+        madi = Guest(name="Madi", email="madi@email.com", phone_number="123-123-0000")
+        jazlin = Guest(name="Jazlin", email="jazlin@email.com", phone_number="123-123-0000")
+        jenna = Guest(name="Jenna", email="jenna@email.com", phone_number="123-123-0000")
+        anthony = Guest(name="Anthony", email="anthony@email.com", phone_number="123-123-0000")
+        molly = Guest(name="Molly", email="molly@email.com", phone_number="123-123-0000")
+        jia = Guest(name="Jia", email="jia@email.com", phone_number="123-123-0000")
+        krystle = Guest(name="Krystle", email="krystle@email.com", phone_number="123-123-0000")
+        aaron = Guest(name="Aaron", email="aaron@email.com", phone_number="123-123-0000")
+        guests = [morgan, jason, oliver, vanessa, joe, rae, madi, jazlin, jenna, anthony, molly, jia, krystle, aaron]
+
+        db.session.add_all(guests)
+        db.session.commit()
 
         print("Seeding parties...")
         parties = create_parties()

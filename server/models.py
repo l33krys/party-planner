@@ -136,6 +136,3 @@ class Food(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f"Food: {self.id}, {self.item}, {self.quantity}"
-
-
-

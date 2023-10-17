@@ -45,7 +45,6 @@ class Parties(Resource):
                 {"errors": ["validation errors"]}, 400
             )
 
-api.add_resource(Parties, "/parties")
 
 class PartyById(Resource):
 
@@ -96,7 +95,6 @@ class PartyById(Resource):
                 {"error": "Party does not exist"}, 404
             )
     
-api.add_resource(PartyById, "/parties/<int:id>")
 
 class Foods(Resource):
 
@@ -126,7 +124,6 @@ class Foods(Resource):
                 {"errors": ["validation errors"]}, 400
             )
 
-api.add_resource(Foods, "/foods")
 
 class FoodById(Resource):
 
@@ -176,8 +173,65 @@ class FoodById(Resource):
             return make_response(
                 {"error": "Food item does not exist"}, 404
             )
+        
+
+class Guests(Resource):
+    def get(self):
+        return make_response([guest.to_dict() for guest in Guest.query.all()], 200)
     
+    def post(self):
+        guest_json = request.get_json()
+        guest = Guest()
+        try:
+            for key in guest_json:
+                if hasattr(guest, key):
+                    setattr(guest, key, guest_json[key])
+            db.session.add(guest)
+            db.session.commit()
+            return make_response(guest.to_dict(rules=()), 201)
+        except ValueError:
+            return make_response({"errors": ["validation errors"]}, 400)
+        
+
+class GuestById(Resource):
+    def get(self, id):
+        guest = Guest.query.filter_by(id=id).first()
+        if guest:
+            return make_response(guest.to_dict(), 200)
+        else:
+            return make_response({"error": "Guest does not exist"}, 404)
+
+    def delete(self, id):
+        guest = Guest.query.get(id)
+        if guest:
+            db.session.delete(guest)
+            db.session.commit()
+            return "", 204
+        return make_response({"error": "Guest not found"}, 404)
+    
+    def patch(self, id):
+        data = request.get_json()
+        guest = Guest.query.filter_by(id=id).first()
+        if guest:
+            try:
+                for key in data:
+                    if hasattr(guest, key):
+                        setattr(guest, key, data[key])
+                db.session.commit()
+                return make_response(guest.to_dict(), 200)
+            except ValueError:
+                return make_response({"errors": ["validation errors"]}, 400)
+        else:
+            return make_response({"error": "Guest does not exist"}, 404)
+    
+
+api.add_resource(Parties, "/parties")
+api.add_resource(PartyById, "/parties/<int:id>")
+api.add_resource(Foods, "/foods")    
 api.add_resource(FoodById, "/foods/<int:id>")
+api.add_resource(Guests, "/guests")
+api.add_resource(GuestById, "/guests/<int:id>")
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

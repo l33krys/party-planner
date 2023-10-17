@@ -63,7 +63,7 @@ class Party(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     location = db.Column(db.String)
-    date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    date = db.Column(db.String)
     
     # relationships
     foods = db.relationship("Food", back_populates="party", cascade="all, delete-orphan")
@@ -87,7 +87,7 @@ class Party(db.Model, SerializerMixin):
     @validates("date")
     def validate_date(self, key, date):
         if not date:
-            raise ValueError("Date is required. Date can be updated if needed.")
+            raise ValueError("Date is required. Please use YYYY-MM-DD.")
         return date
     
     def __repr__(self):

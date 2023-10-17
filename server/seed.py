@@ -2,53 +2,29 @@
 
 # Standard library imports
 from random import randint, choice as rc
+import datetime
 
 # Remote library imports
 from faker import Faker
+fake = Faker()
 
 # Local imports
 from app import app
 from models import db, Guest, Party, Food
 
-fake = Faker()
-
-def create_guests():
-    guests = []
-    for _ in range(5):
-        g = Guest(
-            name=fake.name(),
-            email=fake.email(),
-            phone_number=fake.phone()
-        )
-        guests.append(g)
-        
-    return guests
-
-def create_parties():
-    parties = []
-    for _ in range(3):
-        p = Party(
-            name=fake.name(),
-            location=fake.address()
-        )
-        parties.append(p)
-        
-    return parties
-
 def create_foods(guests, parties):
+    items = ["Chicken Wings", "Meatballs", "Hummus and Pita Chips", "Lasagna", "Cake", "Salad", "Sliders", "Chips and Salsa", "Cookies", "Pizza", "Soda", "Water", "Coffee"]
     foods = []
     for _ in range(10):
         f = Food(
-            item=fake.name(),
-            quantity=rc(range(20)),
+            item=items[rc(range(len(items)))],
+            quantity=rc(range(1, 20)),
             party_id=rc([party.id for party in parties]),
             guest_id=rc([guest.id for guest in guests])
         )
         foods.append(f)
         
     return foods
-
-
 
 if __name__ == '__main__':
     fake = Faker()
@@ -60,11 +36,6 @@ if __name__ == '__main__':
         Guest.query.delete()
         Party.query.delete()
         Food.query.delete()
-
-        # print("Seeding guests...")
-        # guests = create_guests()
-        # db.session.add_all(guests)
-        # db.session.commit()
 
         print("Creating Guests...")
         morgan = Guest(name="Morgan", email="morgan@email.com", phone_number="123-123-0000")
@@ -87,9 +58,13 @@ if __name__ == '__main__':
         db.session.commit()
 
         print("Seeding parties...")
-        parties = create_parties()
+        halloween = Party(name="Halloween Party", location="Haunted Mansion", date="2023-10-31")
+        friendsgiving = Party(name="Friendsgiving", location="123 Flatiron St", date="2023-11-18")
+        holiday = Party(name="Holiday Potluck", location="Break Room", date="2023-12-20")
+        parties = [halloween, friendsgiving, holiday]
+        
         db.session.add_all(parties)
-        db.session.commit()
+        db.session.commit()       
 
         print("Seeding foods...")
         foods = create_foods(guests, parties)

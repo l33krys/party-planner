@@ -1,39 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import io from "socket.io-client";
 
-export const PartyForm = () => {
-  const [parties, setParties] = useState([{}]);
+const socket = io("http://localhost:5555");
+
+export const GuestForm = () => {
+  const [guests, setGuests] = useState([]);
   const [refreshPage, setRefreshPage] = useState(false);
-  // Pass the useFormik() hook initial form values and a submit function that will
-  // be called when the form is submitted
 
   useEffect(() => {
     console.log("FETCH! ");
-    fetch("http://localhost:5555/parties")
+    fetch("http://localhost:5555/guests")
       .then((res) => res.json())
       .then((data) => {
-        setParties(data);
+        setGuests(data);
         console.log(data);
       });
   }, [refreshPage]);
 
   const formSchema = yup.object().shape({
-    name: yup.string().required("Must enter party name"),
-    location: yup.string().required("Must enter a location"),
-    date: yup.date().required("Must use format yyyy-mm-dd")
+    name: yup.string().required("Must enter a name"),
+    email: yup.string().required("Must enter a email"),
+    phone_number: yup.string().required("Must use format XXX-XXX-XXXX")
   });
 
   const formik = useFormik({
     initialValues: {
       name: "",
-      location: "",
-      date: "",
+      email: "",
+      phone_number: "",
     },
     validationSchema: formSchema,
     onSubmit: (values, { resetForm }) => {
         console.log(values)
-      fetch("http://localhost:5555/parties", {
+      fetch("http://localhost:5555/guests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +42,8 @@ export const PartyForm = () => {
         body: JSON.stringify(values, null, 2),
       }).then((res) => {
         resetForm()
-        if (res.status == 201) {
+        if (res.status === 201) {
+          socket.emit("new_guest_added", values);
           setRefreshPage(!refreshPage);
         }
       });
@@ -50,9 +52,9 @@ export const PartyForm = () => {
 
   return (
     <div>
-      <h2>Host a Party</h2>
+      <h2>Add Yourself to the Guest List</h2>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
-        <label htmlFor="name">What's the occasion?</label>
+        <label htmlFor="name">What's your Name?</label>
         <br />
         <input
           id="name"
@@ -61,45 +63,46 @@ export const PartyForm = () => {
           value={formik.values.name}
         />
         <p style={{ color: "red" }}> {formik.errors.name}</p>
-        <label htmlFor="location">Where should we meet?</label>
+        <label htmlFor="email">What's your Email?</label>
         <br />
 
         <input
-          id="location"
-          name="location"
+          id="email"
+          name="email"
           onChange={formik.handleChange}
-          value={formik.values.location}
+          value={formik.values.email}
         />
-        <p style={{ color: "red" }}> {formik.errors.location}</p>
+        <p style={{ color: "red" }}> {formik.errors.email}</p>
 
-        <label htmlFor="date">What day is it? (yyyy-mm-dd)</label>
+        <label htmlFor="phone_number">What's your Phone Number? (XXX-XXX-XXXX)</label>
         <br />
 
         <input
-          id="date"
-          name="date"
+          id="phone_number"
+          name="phone_number"
           onChange={formik.handleChange}
-          value={formik.values.date}
+          value={formik.values.phone_number}
         />
-        <p style={{ color: "red" }}> {formik.errors.date}</p>
+        <p style={{ color: "red" }}> {formik.errors.phone_number}</p>
         <button type="submit">Submit</button>
       </form>
       <table style={{ padding: "15px" }}>
         <tbody>
+        <h2>Current Guests</h2>
           <tr>
-            <th>Party</th>
-            <th>Location</th>
-            <th>Date</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
           </tr>
-          {parties === "undefined" ? (
+          {guests === undefined ? (
             <p>Loading</p>
           ) : (
-            parties.map((party, i) => (
+            guests.map((guest, i) => (
               <>
                 <tr key={i}>
-                  <td>{party.name}</td>
-                  <td>{party.location}</td>
-                  <td>{party.date}</td>
+                  <td>{guest.name}</td>
+                  <td>{guest.email}</td>
+                  <td>{guest.phone_number}</td>
                 </tr>
               </>
             ))
@@ -110,4 +113,4 @@ export const PartyForm = () => {
   );
 };
 
-export default PartyForm;
+export default GuestForm;

@@ -5,17 +5,27 @@
 # Remote library imports
 from flask import Flask, make_response, request
 from flask_restful import Resource
+from flask_socketio import SocketIO
 
 # Local imports
 from config import app, db, api
+
+socketio = SocketIO(app)
 # Add your model imports
 from models import *
+from models import GuestList 
 
 # Views go here!
 
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
+
+@socketio.on('new_guest_added')
+def handle_new_guest(data):
+    db.session.add(data)
+    db.session.commit()
+    socketio.emit('guest_list_updated', broadcast=True)
 
 class Parties(Resource):
 
@@ -223,7 +233,13 @@ class GuestById(Resource):
                 return make_response({"errors": ["validation errors"]}, 400)
         else:
             return make_response({"error": "Guest does not exist"}, 404)
-    
+
+
+class GuestListResource(Resource):
+    def get(self):
+        guest_list = GuestList.query.all()
+        return make_response([guest.to_dict() for guest in guest_list], 200)
+
 
 api.add_resource(Parties, "/parties")
 api.add_resource(PartyById, "/parties/<int:id>")
@@ -231,6 +247,7 @@ api.add_resource(Foods, "/foods")
 api.add_resource(FoodById, "/foods/<int:id>")
 api.add_resource(Guests, "/guests")
 api.add_resource(GuestById, "/guests/<int:id>")
+api.add_resource(GuestListResource, "/guest-list")
 
 
 if __name__ == '__main__':

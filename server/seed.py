@@ -10,7 +10,7 @@ fake = Faker()
 
 # Local imports
 from app import app
-from models import db, Guest, Party, Food
+from models import db, Guest, Party, Food, GuestList
 
 def create_foods(guests, parties):
     items = ["Chicken Wings", "Meatballs", "Hummus and Pita Chips", "Lasagna", "Cake", "Salad", "Sliders", "Chips and Salsa", "Cookies", "Pizza", "Soda", "Water", "Coffee"]
@@ -36,6 +36,7 @@ if __name__ == '__main__':
         Guest.query.delete()
         Party.query.delete()
         Food.query.delete()
+        GuestList.query.delete()
 
         print("Creating Guests...")
         morgan = Guest(name="Morgan", email="morgan@email.com", phone_number="123-123-0000")
@@ -69,6 +70,16 @@ if __name__ == '__main__':
         print("Seeding foods...")
         foods = create_foods(guests, parties)
         db.session.add_all(foods)
+        db.session.commit()
+
+        print("Creating Guest-Party relationships...")
+        guest_list_entries = []
+        for guest in guests:
+            for party in parties:
+                guest_list_entry = GuestList(guest_id=guest.id, party_id=party.id)
+                guest_list_entries.append(guest_list_entry)
+
+        db.session.add_all(guest_list_entries)
         db.session.commit()
 
         print("Done seeding!")

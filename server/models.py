@@ -21,7 +21,7 @@ class Guest(db.Model, SerializerMixin):
     parties = association_proxy("foods", "party")
 
     # serialization rules
-    
+    serialize_rules = ("-foods", "-parties")
 
     # validations
     @validates("name")
@@ -108,7 +108,7 @@ class Food(db.Model, SerializerMixin):
     guest = db.relationship("Guest", back_populates="foods")
 
     # serialization rules
-    serialize_rules = ("-party", "-guest")
+    serialize_rules = ("guest_id.name", "-party_id", "-guest_id", )
 
     @validates("item")
     def validate_item(self, key, item):

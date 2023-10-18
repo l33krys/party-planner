@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import io from "socket.io-client";
-
-const socket = io("http://localhost:5555");
 
 export const GuestForm = () => {
   const [guests, setGuests] = useState([]);
   const [refreshPage, setRefreshPage] = useState(false);
 
   useEffect(() => {
-    console.log("FETCH! ");
     fetch("http://localhost:5555/guests")
       .then((res) => res.json())
       .then((data) => {
         setGuests(data);
-        console.log(data);
       });
   }, [refreshPage]);
 
@@ -33,7 +28,6 @@ export const GuestForm = () => {
     },
     validationSchema: formSchema,
     onSubmit: (values, { resetForm }) => {
-        console.log(values)
       fetch("http://localhost:5555/guests", {
         method: "POST",
         headers: {
@@ -43,7 +37,6 @@ export const GuestForm = () => {
       }).then((res) => {
         resetForm()
         if (res.status === 201) {
-          socket.emit("new_guest_added", values);
           setRefreshPage(!refreshPage);
         }
       });
@@ -52,7 +45,7 @@ export const GuestForm = () => {
 
   return (
     <div>
-      <h2>Add Yourself to the Guest List</h2>
+      <h2>Add Yourself</h2>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <label htmlFor="name">What's your Name?</label>
         <br />
@@ -88,7 +81,7 @@ export const GuestForm = () => {
       </form>
       <table style={{ padding: "15px" }}>
         <tbody>
-        <h2>Current Guests</h2>
+        <h2>All Users</h2>
           <tr>
             <th>Name</th>
             <th>Email</th>

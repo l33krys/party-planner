@@ -136,21 +136,3 @@ class Food(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f"Food: {self.id}, {self.item}, {self.quantity}"
-
-class GuestList(db.Model):
-    __tablename__ = 'guest_list'
-
-    id = db.Column(db.Integer, primary_key=True)
-    guest_id = db.Column(db.Integer, db.ForeignKey('guests.id'))
-    party_id = db.Column(db.Integer, db.ForeignKey('parties.id'))
-
-  # relationships
-    guest = db.relationship('Guest')
-    party = db.relationship('Party')
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'guest': self.guest.to_dict(),
-            'party': self.party.to_dict()
-        }

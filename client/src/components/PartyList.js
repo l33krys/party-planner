@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { Card } from "semantic-ui-react";
 import PartyCard from "./PartyCard"
+import PartyEditForm from "./PartyEditForm";
 
-export const PartyList = ({ parties, setParties, refreshPage, setRefreshPage }) => {
+export const PartyList = ({ parties, setParties, refreshPage, setRefreshPage, refreshParty }) => {
+  const [showForm, setShowForm] = useState(false)
+  const [editParty, setEditParty] = useState([{}])
 //   const [parties, setParties] = useState([{}]);
 //   const [refreshPage, setRefreshPage] = useState(false);
   // Pass the useFormik() hook initial form values and a submit function that will
@@ -32,10 +36,33 @@ export const PartyList = ({ parties, setParties, refreshPage, setRefreshPage }) 
     })
 
   }
+
+  function handleEdit(editParty) {
+    fetch(`http://127.0.0.1:5555/parties/${editParty.id}`, {
+        method: "GET"
+    })
+    .then((r) => r.json())
+    .then(party => {
+      setEditParty(party)
+      setShowForm(!showForm)
+    })
+    }  
   
   return (
     <div>
-      <table style={{ padding: "15px" }}>
+      <h1 style={{ border: "solid", margin: "30px " }}>My Parties</h1>
+      <Card.Group style={{ margin: "30px " }}>
+        {parties ? (
+            parties.map((party, key) => (
+              <PartyCard key={key} party={party} handleDelete={handleDelete} handleEdit={handleEdit} />
+            ))
+          ) :
+          (
+            <p>Loading</p>
+          )}
+      </Card.Group>
+      {showForm ? <PartyEditForm refreshPage={refreshPage} setRefreshPage={setRefreshPage} editParty={editParty} showForm={showForm} setShowForm={setShowForm} refreshParty={refreshParty} /> : ""}
+      {/* <table style={{ padding: "15px" }}>
         <tbody>
           <tr>
             <th>Party</th>
@@ -51,7 +78,7 @@ export const PartyList = ({ parties, setParties, refreshPage, setRefreshPage }) 
             <p>Loading</p>
           )}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 };

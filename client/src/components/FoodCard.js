@@ -9,16 +9,16 @@ function FoodCard({ food, handleDelete }) {
     }
 
 return (
+        
+        <tr>
+            <td>{food.item}</td>
+            <td>{food.quantity}</td>
+            <td>{food.party_id}</td>
+            <td>{food.guest_id}</td>
+            <td><button onClick={clickDelete}>Delete</button></td>
+        </tr>
 
-    <tr>
-        <td>{food.item}</td>
-        <td>{food.quantity}</td>
-        <td>{food.party_id}</td>
-        <td>{food.guest_id}</td>
-        <td><button onClick={clickDelete}>Delete</button></td>
-    </tr>
-
-)
+    )
 
 }
 export default FoodCard;

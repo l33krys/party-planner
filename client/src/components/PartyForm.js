@@ -18,7 +18,7 @@ export const PartyForm = ({ refreshPage, setRefreshPage, addParty }) => {
   //       console.log(data);
   //     });
   // }, [refreshPage]);
-
+  
   const formSchema = yup.object().shape({
     name: yup.string().required("Must enter party name"),
     location: yup.string().required("Must enter a location"),
@@ -69,8 +69,8 @@ export const PartyForm = ({ refreshPage, setRefreshPage, addParty }) => {
   // }
   
   return (
-    <div>
-      <h3>Create a Party:</h3>
+    <div style={{ border: "solid", margin: "30px " }}>
+      <h3 style={{ color: "blue" }}>Create a Party:</h3>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <label htmlFor="name">What's the occasion?</label>
         <br />

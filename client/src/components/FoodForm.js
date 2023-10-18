@@ -3,21 +3,21 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import FoodCard from "./FoodCard"
 
-export const FoodForm = () => {
-  const [foods, setFoods] = useState([{}]);
-  const [refreshPage, setRefreshPage] = useState(false);
+export const FoodForm = ({ foods, setFoods, refreshPage, setRefreshPage }) => {
+  // const [foods, setFoods] = useState([{}]);
+  // const [refreshPage, setRefreshPage] = useState(false);
   // Pass the useFormik() hook initial form values and a submit function that will
   // be called when the form is submitted
 
-  useEffect(() => {
-    console.log("FETCH FOOD! ");
-    fetch("http://localhost:5555/foods")
-      .then((res) => res.json())
-      .then((data) => {
-        setFoods(data);
-        console.log(data);
-      });
-  }, [refreshPage]);
+  // useEffect(() => {
+  //   console.log("FETCH FOOD! ");
+  //   fetch("http://localhost:5555/foods")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setFoods(data);
+  //       console.log(data);
+  //     });
+  // }, [refreshPage]);
 
   const formSchema = yup.object().shape({
     item: yup.string().required("Must enter party name"),
@@ -55,22 +55,22 @@ export const FoodForm = () => {
     },
   });
 
-  function handleDelete(delFood) {
-    fetch(`http://127.0.0.1:5555/foods/${delFood.id}`, {
-        method: "DELETE"
-    })
-    .then(() => {
-        const updatedFoods = foods.filter(
-            (food) => food.id != delFood.id
-        )
-        setFoods(updatedFoods)
-    })
+  // function handleDelete(delFood) {
+  //   fetch(`http://127.0.0.1:5555/foods/${delFood.id}`, {
+  //       method: "DELETE"
+  //   })
+  //   .then(() => {
+  //       const updatedFoods = foods.filter(
+  //           (food) => food.id != delFood.id
+  //       )
+  //       setFoods(updatedFoods)
+  //   })
 
-  }
+  // }
 
   return (
-    <div>
-      <h3>Add & Assign Food Items</h3>
+    <div style={{ border: "solid", margin: "30px" }}>
+      <h3 style={{ color: "blue" }}>Add & Assign Food Items</h3>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <label htmlFor="item">Item</label>
         <br />
@@ -115,31 +115,33 @@ export const FoodForm = () => {
         <p style={{ color: "red" }}> {formik.errors.guest_id}</p>
         <button type="submit">Submit</button>
       </form>
-      <table style={{ padding: "15px" }}>
-        <tbody>
-          <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Party</th>
-            <th>Assigned To</th>
-            <th></th>
-          </tr>
-          {foods ? foods.map((food, key) => (
-                <FoodCard key={key} food={food} handleDelete={handleDelete} />
-            )) :
-            <p>Loading...</p>
-          }
-          {/* {foods === "undefined" ? (
-            <p>Loading</p>
-          ) : (
-            foods.map((food, i) => (
-                <FoodList food={food} handleDelete={handleDelete} />
-            ))
-          )} */}
-        </tbody>
-      </table>
+
     </div>
   );
 };
 
 export default FoodForm;
+
+{/* <table style={{ padding: "15px" }}>
+<tbody>
+  <tr>
+    <th>Item</th>
+    <th>Quantity</th>
+    <th>Party</th>
+    <th>Assigned To</th>
+    <th></th>
+  </tr>
+  {foods ? foods.map((food, key) => (
+        <FoodCard key={key} food={food} handleDelete={handleDelete} />
+    )) :
+    <p>Loading...</p>
+  }
+  {/* {foods === "undefined" ? (
+    <p>Loading</p>
+  ) : (
+    foods.map((food, i) => (
+        <FoodList food={food} handleDelete={handleDelete} />
+    ))
+  )}
+</tbody>
+</table> */}

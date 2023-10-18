@@ -19,7 +19,6 @@ function App() {
         .then((res) => res.json())
         .then((data) => {
           setParties(data);
-          console.log(data);
         });
     }, [refreshPage]);
 
@@ -29,7 +28,6 @@ function App() {
         .then((res) => res.json())
         .then((data) => {
           setFoods(data);
-          console.log(data);
         });
     }, [refreshPage]);
 

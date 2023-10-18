@@ -13,15 +13,15 @@ export const PartyList = ({ parties, setParties, refreshPage, setRefreshPage, re
   // Pass the useFormik() hook initial form values and a submit function that will
   // be called when the form is submitted
 
-  useEffect(() => {
-    console.log("FETCH PARTIES! ");
-    fetch("http://localhost:5555/parties")
-      .then((res) => res.json())
-      .then((data) => {
-        setParties(data);
-        console.log(data);
-      });
-  }, [refreshPage]);
+  // useEffect(() => {
+  //   console.log("FETCH PARTIES! ");
+  //   fetch("http://localhost:5555/parties")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setParties(data);
+  //       console.log(data);
+  //     });
+  // }, [refreshPage]);
 
 
   function handleDelete(delParty) {
@@ -44,7 +44,10 @@ export const PartyList = ({ parties, setParties, refreshPage, setRefreshPage, re
     .then((r) => r.json())
     .then(party => {
       setEditParty(party)
-      setShowForm(!showForm)
+      if (!showForm) {
+        setShowForm(!showForm)
+      }
+      
     })
     }  
   

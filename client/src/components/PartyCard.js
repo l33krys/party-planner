@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
+import FoodForm from "./FoodForm";
 
 
 function PartyCard({ party, handleDelete, handleEdit }) {
@@ -14,6 +15,10 @@ function PartyCard({ party, handleDelete, handleEdit }) {
         handleEdit(party)
     }
 
+    function clickAssignFood(e) {
+        console.log("Route to food page")
+    }
+
     return (
         <>
             <Card>
@@ -22,8 +27,10 @@ function PartyCard({ party, handleDelete, handleEdit }) {
                     <p>{party.name}</p>
                     <p>Location: {party.location}</p>
                     <p>Date: {party.date}</p>
-                    <p><Button onClick={clickDelete}>Delete</Button>
-                        <Button onClick={clickEdit}>Edit</Button>
+                    <p><Button style={{ padding: "10px" }} onClick={clickEdit}>Edit</Button>
+                        <Button style={{ padding: "10px" }} onClick={clickAssignFood}>Assign Food</Button>
+                        <Button style={{ padding: "10px" }} onClick={clickDelete}>Delete</Button>
+                        
                     </p>
                 </Card.Content>
             </Card>

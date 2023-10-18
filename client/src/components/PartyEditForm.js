@@ -45,6 +45,7 @@ export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm
         <label htmlFor="name">What's the occasion?</label>
         <br />
         <input
+          style={{ width: "250px" }}
           id="name"
           name="name"
           onChange={formik.handleChange}
@@ -55,6 +56,7 @@ export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm
         <br />
 
         <input
+          style={{ width: "250px" }}
           id="location"
           name="location"
           onChange={formik.handleChange}
@@ -72,7 +74,7 @@ export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm
           value={formik.values.date}
         />
         <p style={{ color: "red" }}> {formik.errors.date}</p>
-        <button type="submit">Submit</button>
+        <button type="submit">Done Editing</button>
       </form>
     </div>
   );

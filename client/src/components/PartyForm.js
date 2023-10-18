@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 // import PartyCard from "./PartyCard"
+import { Button, Form, Message } from 'semantic-ui-react'
 
 export const PartyForm = ({ refreshPage, setRefreshPage, addParty }) => {
+  const [showSuccess, setShowSuccess] = useState(false)
   // const [parties, setParties] = useState([{}]);
   // const [refreshPage, setRefreshPage] = useState(false);
   // Pass the useFormik() hook initial form values and a submit function that will
@@ -45,6 +47,7 @@ export const PartyForm = ({ refreshPage, setRefreshPage, addParty }) => {
         resetForm()
         if (res.status == 201) {
           setRefreshPage(!refreshPage);
+          setShowSuccess(true)
         }
       })
       // .then(r => r.json())
@@ -68,42 +71,54 @@ export const PartyForm = ({ refreshPage, setRefreshPage, addParty }) => {
 
   // }
   
+
+
+
   return (
-    <div style={{ border: "solid", margin: "30px " }}>
-      <h3 style={{ color: "blue" }}>Create a Party:</h3>
-      <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
+    <div style={{ border: "solid", margin: "30px" }}>
+      <h3 style={{ color: "blue", margin: "30px" }}>Create a Party:</h3>
+      <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
+        <Form.Field>
         <label htmlFor="name">What's the occasion?</label>
-        <br />
         <input
+          style={{ width: "250px" }}
           id="name"
           name="name"
           onChange={formik.handleChange}
           value={formik.values.name}
         />
         <p style={{ color: "red" }}> {formik.errors.name}</p>
+        </Form.Field>
+        <Form.Field>
         <label htmlFor="location">Where should we meet?</label>
-        <br />
-
         <input
+          style={{ width: "250px" }}
           id="location"
           name="location"
           onChange={formik.handleChange}
           value={formik.values.location}
         />
         <p style={{ color: "red" }}> {formik.errors.location}</p>
-
+        </Form.Field>
+        <Form.Field>
         <label htmlFor="date">What day is it? (yyyy-mm-dd)</label>
-        <br />
-
         <input
+          style={{ width: "150px" }}
           id="date"
           name="date"
           onChange={formik.handleChange}
           value={formik.values.date}
         />
         <p style={{ color: "red" }}> {formik.errors.date}</p>
-        <button type="submit">Submit</button>
-      </form>
+        </Form.Field>
+        <Button type="submit">Submit</Button>
+        {showSuccess?     <Message
+    success
+    header="Party Created"
+    content="You're ready to start adding guests and food"
+  /> : ""}
+
+      </Form>
       {/* <table style={{ padding: "15px" }}>
         <tbody>
           <tr>

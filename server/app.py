@@ -30,31 +30,48 @@ class Parties(Resource):
         )
     
     def post(self):
-        party_json = request.get_json()
-        attending_guests = party_json.get("attendingGuests", [])  # Get the attending guests array from the JSON data
+        # party_json = request.get_json()
+        # attending_guests = party_json.get("attendingGuests", [])  # Get the attending guests array from the JSON data
+        # party = Party()
+        # # Populate party attributes from party_json
+        # # Save party to the database
+        
+        # # Associate attending guests with the party
+        # for guest_data in attending_guests:
+        #     guest_id = guest_data.get("id")
+        #     guest = Guest.query.get(guest_id)
+        #     if guest:
+        #         party.attending_guests.append(guest)
+        
+        # # Commit changes to the database
+        # db.session.add(party)
+        # db.session.commit()
+        
+        # # Return the response with attending guests data
+        # response_data = {
+        #     "id": party.id,
+        #     "name": party.name,
+        #     # Include other party attributes as needed
+        #     "attendingGuests": [{"id": guest.id, "name": guest.name} for guest in party.attending_guests]
+        # }
+        # return response_data, 201
+        data = request.get_json()
         party = Party()
-        # Populate party attributes from party_json
-        # Save party to the database
+        try:
+            for key in data:
+                if hasattr(party, key):
+                    setattr(party, key, data[key])
         
-        # Associate attending guests with the party
-        for guest_data in attending_guests:
-            guest_id = guest_data.get("id")
-            guest = Guest.query.get(guest_id)
-            if guest:
-                party.attending_guests.append(guest)
-        
-        # Commit changes to the database
-        db.session.add(party)
-        db.session.commit()
-        
-        # Return the response with attending guests data
-        response_data = {
-            "id": party.id,
-            "name": party.name,
-            # Include other party attributes as needed
-            "attendingGuests": [{"id": guest.id, "name": guest.name} for guest in party.attending_guests]
-        }
-        return response_data, 201
+            db.session.add(party)
+            db.session.commit()
+
+            return make_response(
+                party.to_dict(), 201
+            )
+        except ValueError:
+            return make_response(
+                {"errors": ["validation errors"]}, 400
+            )
 
 
 class PartyById(Resource):
@@ -200,7 +217,7 @@ class Guests(Resource):
                     setattr(guest, key, guest_json[key])
             db.session.add(guest)
             db.session.commit()
-            return make_response(guest.to_dict(rules=()), 201)
+            return make_response(guest.to_dict(), 201)
         except ValueError:
             return make_response({"errors": ["validation errors"]}, 400)
         
@@ -237,7 +254,96 @@ class GuestById(Resource):
             return make_response({"error": "Guest does not exist"}, 404)
 
 
+class GuestLists(Resource):
 
+    def get(self):
+
+        guestlists = [guestlist.to_dict() for guestlist in GuestList.query.all()]
+        return make_response(
+            guestlists, 200
+        )
+    
+    def post(self):
+
+        data = request.get_json()
+        guestlist = GuestList()
+        try:
+            for key in data:
+                if hasattr(guestlist, key):
+                    setattr(guestlist, key, data[key])
+        
+            db.session.add(guestlist)
+            db.session.commit()
+
+            return make_response(
+                guestlist.to_dict(), 201
+            )
+        except ValueError:
+            return make_response(
+                {"errors": ["validation errors"]}, 400
+            )
+
+
+class GuestListById(Resource):
+
+    def get(self, id):
+        guestlist = GuestList.query.filter_by(id=id).first()
+        if guestlist:
+            return make_response(
+                guestlist.to_dict(), 200
+            )
+        else:
+            return make_response(
+                {"error": "Guest list does not exist"}, 404
+            )
+    
+    def patch(self, id):
+        data = request.get_json()
+        guestlist = GuestList.query.filter_by(id=id).first()
+        if guestlist:
+            try:
+                for key in data:
+                    if hasattr(guestlist, key):
+                        setattr(guestlist, key, data[key])
+                db.session.commit()
+
+                return make_response(
+                    guestlist.to_dict(), 200
+                )
+            except ValueError:
+                return make_response(
+                    {"errors": ["validation errors"]}, 400
+                )
+        else:
+            return make_response(
+                {"error": "Guest list does not exist"}, 404
+            )
+    
+    def delete(self, id):
+        guestlist = GuestList.query.filter_by(id=id).first()
+        if guestlist:
+            db.session.delete(guestlist)
+            db.session.commit()
+
+            return make_response(
+                {}, 204
+            )
+        else:
+            return make_response(
+                {"error": "Guest list does not exist"}, 404
+            )
+
+class GuestRSVP(Resource):
+
+    def get(self, id):
+
+        parties = [party.to_dict(only=("party.name", )) for party in GuestList.query.filter_by(guest_id=id).all()]
+
+        return make_response(
+            parties, 200
+        )
+
+api.add_resource(GuestRSVP, "/guests/<int:id>/parties")
 
 
 api.add_resource(Parties, "/parties")
@@ -246,6 +352,8 @@ api.add_resource(Foods, "/foods")
 api.add_resource(FoodById, "/foods/<int:id>")
 api.add_resource(Guests, "/guests")
 api.add_resource(GuestById, "/guests/<int:id>")
+api.add_resource(GuestLists, "/guest_lists")    
+api.add_resource(GuestListById, "/guest_lists/<int:id>")
 
 
 

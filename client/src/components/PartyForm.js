@@ -92,7 +92,7 @@ const PartyForm = ({ parties, setParties, guests }) => {
           value={formik.values.date}
         />
         <p style={{ color: "red" }}> {formik.errors.date}</p>
-        <div>
+        {/* <div>
   <h2>Select Guests:</h2>
   {guests.map((guest) => (
     <div key={guest.id}>
@@ -116,11 +116,11 @@ const PartyForm = ({ parties, setParties, guests }) => {
             ))}
           </ul>
           <button type="submit">Add Guests</button>
-        </div>
+        </div> */}
 
         <button type="submit">Submit</button>
       </form>
-      <table style={{ padding: "15px" }}>
+      {/* <table style={{ padding: "15px" }}>
   <tbody>
     <tr>
       <th>Party</th>
@@ -141,7 +141,7 @@ const PartyForm = ({ parties, setParties, guests }) => {
       ))
     )}
   </tbody>
-</table>
+</table> */}
     </div>
   );
 };

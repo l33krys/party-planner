@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-export const GuestForm = () => {
-  const [guests, setGuests] = useState([]);
-  const [refreshPage, setRefreshPage] = useState(false);
+export const GuestForm = ({ guests, setGuests, refreshPage, setRefreshPage }) => {
+  // const [guests, setGuests] = useState([]);
+  // const [refreshPage, setRefreshPage] = useState(false);
 
-  useEffect(() => {
-    fetch("http://localhost:5555/guests")
-      .then((res) => res.json())
-      .then((data) => {
-        setGuests(data);
-      });
-  }, [refreshPage]);
+  // useEffect(() => {
+  //   fetch("http://localhost:5555/guests")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setGuests(data);
+  //     });
+  // }, [refreshPage]);
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Must enter a name"),
@@ -79,7 +79,7 @@ export const GuestForm = () => {
         <p style={{ color: "red" }}> {formik.errors.phone_number}</p>
         <button type="submit">Submit</button>
       </form>
-      <table style={{ padding: "15px" }}>
+      {/* <table style={{ padding: "15px" }}>
         <tbody>
         <h2>All Users</h2>
           <tr>
@@ -101,7 +101,7 @@ export const GuestForm = () => {
             ))
           )}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 };

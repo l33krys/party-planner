@@ -18,10 +18,11 @@ class Guest(db.Model, SerializerMixin):
 
     # relationships
     foods = db.relationship("Food", back_populates="guest", cascade="all, delete-orphan")
+    guest_lists = db.relationship("GuestList", back_populates="guest", cascade="all, delete-orphan")
     parties = association_proxy("foods", "party")
 
     # serialization rules
-    
+    serialize_rules = ("-foods", "-parties", "-guest_lists.guest")
 
     # validations
     @validates("name")
@@ -67,10 +68,11 @@ class Party(db.Model, SerializerMixin):
     
     # relationships
     foods = db.relationship("Food", back_populates="party", cascade="all, delete-orphan")
+    guest_lists = db.relationship("GuestList", back_populates="party", cascade="all, delete-orphan")
     guests = association_proxy("foods", "guest")
 
     # serialization rules
-    serialize_rules = ("-foods", "-guests")
+    serialize_rules = ("-foods", "-guest_lists.party", "-guest_lists.id")
 
     @validates("name")
     def validate_name(self, key, name):
@@ -108,7 +110,7 @@ class Food(db.Model, SerializerMixin):
     guest = db.relationship("Guest", back_populates="foods")
 
     # serialization rules
-    serialize_rules = ("-party", "-guest")
+    serialize_rules = ("-party", "-guest", "party.name", "guest.name", "-guest.guest_lists", "-party.guest_lists", "-guest_id", "-party_id")
 
     @validates("item")
     def validate_item(self, key, item):
@@ -136,3 +138,33 @@ class Food(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f"Food: {self.id}, {self.item}, {self.quantity}"
+
+class GuestList(db.Model, SerializerMixin):
+
+    __tablename__ = "guest_lists"
+
+    id = db.Column(db.Integer, primary_key=True)
+    party_id = db.Column(db.Integer, db.ForeignKey("parties.id"))
+    guest_id = db.Column(db.Integer, db.ForeignKey("guests.id"))
+
+    # relationships
+    party = db.relationship("Party", back_populates="guest_lists")
+    guest = db.relationship("Guest", back_populates="guest_lists")
+
+    # serialization rules
+    serialize_rules = ("-party_id", "-guest_id", "-party.guest_lists", "-guest.guest_lists")
+    
+    @validates("party_id")
+    def validate_party_id(self, key, party_id):
+        if party_id is None:
+            raise ValueError("Party ID is required")
+        return party_id
+    
+    @validates("guest_id")
+    def validate_guest_id(self, key, guest_id):
+        if guest_id is None:
+            raise ValueError("Guest ID is required")
+        return guest_id     
+
+    def __repr__(self):
+        return f"GuestList: {self.id}, {self.party_id}, {self.guest_id}"

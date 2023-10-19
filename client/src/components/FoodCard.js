@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import {Table, Button,} from 'semantic-ui-react'
 
 function FoodCard({ food, handleDelete }) {
 
@@ -9,15 +10,23 @@ function FoodCard({ food, handleDelete }) {
     }
 
 return (
-        
-        <tr>
-            <td>{food.item}</td>
-            <td>{food.quantity}</td>
-            <td>{food.party_id}</td>
-            <td>{food.guest_id}</td>
-            <td><button onClick={clickDelete}>Delete</button></td>
-        </tr>
-
+        <Table.Row>
+        <Table.Cell>
+            <>{food.item}</>
+        </Table.Cell>
+        <Table.Cell>
+            <>{food.quantity}</>
+        </Table.Cell>
+        <Table.Cell>
+            <>{food.party_id}</>
+        </Table.Cell>
+        <Table.Cell>
+            <>{food.guest_id}</>
+        </Table.Cell>
+        <Table.Cell>
+            <><Button style={{ background: "#D61C4E" }} onClick={clickDelete}>Delete</Button></>
+        </Table.Cell>
+        </Table.Row>
     )
 
 }

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { Button } from 'semantic-ui-react'
 
 export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm, setShowForm, refreshParty }) => {
   
@@ -30,7 +31,7 @@ export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm
       .then((res) => {
         resetForm()
         console.log(res.status)
-        if (res.status == 200) {
+        if (res.status === 200) {
           setRefreshPage(!refreshPage);
           setShowForm(!showForm)
         }
@@ -39,8 +40,8 @@ export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm
   });
   
   return (
-    <div style={{ border: "solid", margin: "30px " }}>
-      <h3 style={{ color: "blue" }}>Edit Party:</h3>
+    <div style={{ border: "solid", borderColor: "#1CD6CE", margin: "30px " }}>
+      <h3>Edit Party:</h3>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <label htmlFor="name">What's the occasion?</label>
         <br />
@@ -74,7 +75,7 @@ export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm
           value={formik.values.date}
         />
         <p style={{ color: "red" }}> {formik.errors.date}</p>
-        <button type="submit">Done Editing</button>
+        <Button style={{background: "#D61C4E",}}type="submit">Done Editing</Button>
       </form>
     </div>
   );

@@ -1,23 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import FoodCard from "./FoodCard"
+import { Button, Form, Message } from 'semantic-ui-react'
 
-export const FoodForm = ({ foods, setFoods, refreshPage, setRefreshPage }) => {
-  // const [foods, setFoods] = useState([{}]);
-  // const [refreshPage, setRefreshPage] = useState(false);
-  // Pass the useFormik() hook initial form values and a submit function that will
-  // be called when the form is submitted
-
-  // useEffect(() => {
-  //   console.log("FETCH FOOD! ");
-  //   fetch("http://localhost:5555/foods")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setFoods(data);
-  //       console.log(data);
-  //     });
-  // }, [refreshPage]);
+export const FoodForm = ({ refreshPage, setRefreshPage }) => {
+  const [showForm, setShowForm] = useState(false);
 
   const formSchema = yup.object().shape({
     item: yup.string().required("Must enter party name"),
@@ -54,94 +41,69 @@ export const FoodForm = ({ foods, setFoods, refreshPage, setRefreshPage }) => {
       });
     },
   });
-
-  // function handleDelete(delFood) {
-  //   fetch(`http://127.0.0.1:5555/foods/${delFood.id}`, {
-  //       method: "DELETE"
-  //   })
-  //   .then(() => {
-  //       const updatedFoods = foods.filter(
-  //           (food) => food.id != delFood.id
-  //       )
-  //       setFoods(updatedFoods)
-  //   })
-
-  // }
+  const toggleFormVisibility = () => {
+    setShowForm(!showForm);
+  };
 
   return (
-    <div style={{ border: "solid", margin: "30px" }}>
-      <h3 style={{ color: "blue" }}>Add & Assign Food Items</h3>
-      <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
+    <div style={{ border: "solid", margin: "30px", textAlign: "center" }}>
+      <h3 style={{ margin: "30px" }}>Add & Assign Food Items <Button
+          style={{ background: "#D61C4E" }}
+          onClick={toggleFormVisibility}
+        >
+          {showForm ? "Collapse Form" : "Expand Form"}
+        </Button></h3>
+    {showForm && (
+      <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
+        <Form.Field>
         <label htmlFor="item">Item</label>
-        <br />
         <input
           id="item"
           name="item"
           onChange={formik.handleChange}
           value={formik.values.item}
+          style={{ width: "250px" }}
         />
         <p style={{ color: "red" }}> {formik.errors.item}</p>
+        </Form.Field>
+        <Form.Field>
         <label htmlFor="quantity">Quantity</label>
-        <br />
-
         <input
           id="quantity"
           name="quantity"
           onChange={formik.handleChange}
           value={formik.values.quantity}
+          style={{ width: "100px" }}
         />
         <p style={{ color: "red" }}> {formik.errors.quantity}</p>
-
+        </Form.Field>
+        <Form.Field>
         <label htmlFor="party_id">Party ID</label>
-        <br />
-
         <input
           id="party_id"
           name="party_id"
           onChange={formik.handleChange}
           value={formik.values.party_id}
+          style={{ width: "100px" }}
         />
         <p style={{ color: "red" }}> {formik.errors.party_id}</p>
-
+        </Form.Field>
+        <Form.Field>
         <label htmlFor="guest_id">Guest ID</label>
-        <br />
-
         <input
           id="guest_id"
           name="guest_id"
           onChange={formik.handleChange}
           value={formik.values.guest_id}
+          style={{ width: "100px" }}
         />
         <p style={{ color: "red" }}> {formik.errors.guest_id}</p>
-        <button type="submit">Submit</button>
-      </form>
-
+        </Form.Field>
+        <Button style={{ background: "#D61C4E" }} type="submit">Submit</Button>
+      </Form>
+      )}
     </div>
   );
 };
 
 export default FoodForm;
-
-{/* <table style={{ padding: "15px" }}>
-<tbody>
-  <tr>
-    <th>Item</th>
-    <th>Quantity</th>
-    <th>Party</th>
-    <th>Assigned To</th>
-    <th></th>
-  </tr>
-  {foods ? foods.map((food, key) => (
-        <FoodCard key={key} food={food} handleDelete={handleDelete} />
-    )) :
-    <p>Loading...</p>
-  }
-  {/* {foods === "undefined" ? (
-    <p>Loading</p>
-  ) : (
-    foods.map((food, i) => (
-        <FoodList food={food} handleDelete={handleDelete} />
-    ))
-  )}
-</tbody>
-</table> */}

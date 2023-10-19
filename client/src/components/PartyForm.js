@@ -1,25 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-// import PartyCard from "./PartyCard"
 import { Button, Form, Message } from 'semantic-ui-react'
 
 export const PartyForm = ({ refreshPage, setRefreshPage, addParty }) => {
   const [showSuccess, setShowSuccess] = useState(false)
-  // const [parties, setParties] = useState([{}]);
-  // const [refreshPage, setRefreshPage] = useState(false);
-  // Pass the useFormik() hook initial form values and a submit function that will
-  // be called when the form is submitted
-
-  // useEffect(() => {
-  //   console.log("FETCH PARTIES! ");
-  //   fetch("http://localhost:5555/parties")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setParties(data);
-  //       console.log(data);
-  //     });
-  // }, [refreshPage]);
+  const [showForm, setShowForm] = useState(false);
   
   const formSchema = yup.object().shape({
     name: yup.string().required("Must enter party name"),
@@ -45,38 +31,25 @@ export const PartyForm = ({ refreshPage, setRefreshPage, addParty }) => {
       })
       .then((res) => {
         resetForm()
-        if (res.status == 201) {
+        if (res.status === 201) {
           setRefreshPage(!refreshPage);
           setShowSuccess(true)
         }
       })
-      // .then(r => r.json())
-      // .then(newParty =>{
-      //   addParty(newParty)
-      //   resetForm()
-      // })
     },
   });
 
-  // function handleDelete(delParty) {
-  //   fetch(`http://127.0.0.1:5555/parties/${delParty.id}`, {
-  //       method: "DELETE"
-  //   })
-  //   .then(() => {
-  //       const updatedParties = parties.filter(
-  //           (party) => party.id != delParty.id
-  //       )
-  //       setParties(updatedParties)
-  //   })
-
-  // }
-  
+  const toggleFormVisibility = () => {
+    setShowForm(!showForm);
+  };
 
 
 
   return (
-    <div style={{ border: "solid", margin: "30px" }}>
-      <h3 style={{ color: "blue", margin: "30px" }}>Create a Party:</h3>
+    <div style={{ border: "solid", margin: "30px", textAlign: "center" }}>
+      <h3 style={{ margin: "30px" }}>Create a Party: <Button style={{background: "#D61C4E",}}onClick={toggleFormVisibility}>{showForm ? "Collapse Form" : "Expand Form"}</Button></h3>
+      
+      {showForm && (
       <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <Form.Field>
         <label htmlFor="name">What's the occasion?</label>
@@ -111,38 +84,15 @@ export const PartyForm = ({ refreshPage, setRefreshPage, addParty }) => {
         />
         <p style={{ color: "red" }}> {formik.errors.date}</p>
         </Form.Field>
-        <Button type="submit">Submit</Button>
-        {showSuccess?     <Message
-    success
-    header="Party Created"
-    content="You're ready to start adding guests and food"
-  /> : ""}
+        <Button style={{background: "#D61C4E",}}type="submit">Submit</Button>
+        {showSuccess? <Message
+                        success
+                        header="Party Created"
+                        content="You're ready to start adding guests and food"
+                      /> : ""}
 
       </Form>
-      {/* <table style={{ padding: "15px" }}>
-        <tbody>
-          <tr>
-            <th>Party</th>
-            <th>Location</th>
-            <th>Date</th>
-          </tr>
-          {parties ? (
-            parties.map((party, key) => (
-              <PartyCard key={key} party={party} handleDelete={handleDelete} />
-              // <>
-              //   <tr key={i}>
-              //     <td>{party.name}</td>
-              //     <td>{party.location}</td>
-              //     <td>{party.date}</td>
-              //   </tr>
-              // </>
-            ))
-          ) :
-          (
-            <p>Loading</p>
-          )}
-        </tbody>
-      </table> */}
+      )}
     </div>
   );
 };

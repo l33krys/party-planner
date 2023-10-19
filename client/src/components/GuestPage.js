@@ -50,7 +50,9 @@ return (
         parties={parties} 
         onAddPartyToGuest={handleAddPartyToGuest}
         RSVPs={RSVPs}
-        setRSVPs={setRSVPs} />
+        setRSVPs={setRSVPs} 
+        refreshPage={refreshPage} 
+        setRefreshPage={setRefreshPage}/>
     </>
 )
 }

@@ -7,7 +7,7 @@ function FoodCard({ food, handleDelete }) {
         handleDelete(food)
     }
 
-return (
+    return (
         <Table.Row>
         <Table.Cell>
             <>{food.item}</>
@@ -16,13 +16,13 @@ return (
             <>{food.quantity}</>
         </Table.Cell>
         <Table.Cell>
-            <>{food.party_id}</>
+            <>{food.party ? food.party['name'] : ""}</>
         </Table.Cell>
         <Table.Cell>
-            <>{food.guest_id}</>
+            <>{food.guest ? food.guest['name'] : ""}</>
         </Table.Cell>
         <Table.Cell>
-            <><Button style={{ background: "#D61C4E" }} onClick={clickDelete}>Delete</Button></>
+            <><Button style={{ background: "#E06469" }} onClick={clickDelete}>Delete</Button></>
         </Table.Cell>
         </Table.Row>
     )

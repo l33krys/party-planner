@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button } from 'semantic-ui-react'
+import { Button, Form } from 'semantic-ui-react'
 
 export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm, setShowForm }) => {
   
@@ -40,43 +40,44 @@ export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm
   });
   
   return (
-    <div style={{ border: "solid", borderColor: "#1CD6CE", margin: "30px " }}>
-      <h3>Edit Party:</h3>
-      <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
+    <div style={{ background: "#F2B6A0", border: "solid", borderColor: "#E06469", margin: "30px " }}>
+      <h3 style={{ margin: "30px" }}>Edit Party:</h3>
+      <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
+      <Form.Field>
         <label htmlFor="name">What's the occasion?</label>
-        <br />
         <input
-          style={{ width: "250px" }}
+          style={{ width: "250px", textAlign: "center" }}
           id="name"
           name="name"
           onChange={formik.handleChange}
           value={formik.values.name}
         />
         <p style={{ color: "red" }}> {formik.errors.name}</p>
+        </Form.Field>
+        <Form.Field>
         <label htmlFor="location">Where should we meet?</label>
-        <br />
-
         <input
-          style={{ width: "250px" }}
+          style={{ width: "250px", textAlign: "center" }}
           id="location"
           name="location"
           onChange={formik.handleChange}
           value={formik.values.location}
         />
         <p style={{ color: "red" }}> {formik.errors.location}</p>
-
+        </Form.Field>
+        <Form.Field>
         <label htmlFor="date">What day is it? (yyyy-mm-dd)</label>
-        <br />
-
         <input
           id="date"
           name="date"
+          style={{ width: "250px", textAlign: "center" }}
           onChange={formik.handleChange}
           value={formik.values.date}
         />
         <p style={{ color: "red" }}> {formik.errors.date}</p>
-        <Button style={{background: "#D61C4E",}}type="submit">Done Editing</Button>
-      </form>
+        </Form.Field>
+        <Button style={{background: "#AFD3E2",}}type="submit">Done Editing</Button>
+      </Form>
     </div>
   );
 };

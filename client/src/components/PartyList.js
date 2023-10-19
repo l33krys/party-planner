@@ -35,8 +35,8 @@ export const PartyList = ({ parties, setParties, refreshPage, setRefreshPage, re
     }  
   
   return (
-    <div style={{ border: "solid", margin: "30px ", textAlign: "center" }}>
-      <h1 style={{ textAlign: "center" }}>My Parties</h1>
+    <div style={{ background: "#146C94", borderColor: "#19A7CE", border: "solid", margin: "30px ", textAlign: "center" }}>
+      <h1 style={{ textAlign: "center", margin: "30px", color:"#F6F1F1" }}>My Parties</h1>
       <Card.Group style={{ margin: "30px " }}>
         {parties ? (
             parties.map((party, key) => (

@@ -46,15 +46,15 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
 
 
   return (
-    <div style={{ border: "solid", margin: "30px", textAlign: "center" }}>
-      <h3 style={{ margin: "30px" }}>Create a Party: <Button style={{background: "#D61C4E",}}onClick={toggleFormVisibility}>{showForm ? "Collapse Form" : "Expand Form"}</Button></h3>
+    <div style={{ background: "#146C94", borderColor: "#19A7CE", border: "solid", margin: "30px", textAlign: "center" }}>
+      <h3 style={{ color:"#F6F1F1", margin: "30px" }}>Create a Party: <Button style={{background: "#AFD3E2",}}onClick={toggleFormVisibility}>{showForm ? "Collapse Form" : "Expand Form"}</Button></h3>
       
       {showForm && (
       <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <Form.Field>
-        <label htmlFor="name">What's the occasion?</label>
+        <label htmlFor="name" style={{color: "#F6F1F1"}}>What's the occasion?</label>
         <input
-          style={{ width: "250px" }}
+          style={{ width: "250px", textAlign: "center" }}
           id="name"
           name="name"
           onChange={formik.handleChange}
@@ -63,9 +63,9 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
         <p style={{ color: "red" }}> {formik.errors.name}</p>
         </Form.Field>
         <Form.Field>
-        <label htmlFor="location">Where should we meet?</label>
+        <label htmlFor="location" style={{color: "#F6F1F1"}}>Where should we meet?</label>
         <input
-          style={{ width: "250px" }}
+          style={{ width: "250px", textAlign: "center" }}
           id="location"
           name="location"
           onChange={formik.handleChange}
@@ -74,9 +74,9 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
         <p style={{ color: "red" }}> {formik.errors.location}</p>
         </Form.Field>
         <Form.Field>
-        <label htmlFor="date">What day is it? (yyyy-mm-dd)</label>
+        <label htmlFor="date" style={{color: "#F6F1F1"}}>What day is it? (yyyy-mm-dd)</label>
         <input
-          style={{ width: "150px" }}
+          style={{ width: "250px", textAlign: "center" }}
           id="date"
           name="date"
           onChange={formik.handleChange}
@@ -84,7 +84,7 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
         />
         <p style={{ color: "red" }}> {formik.errors.date}</p>
         </Form.Field>
-        <Button style={{background: "#D61C4E",}}type="submit">Submit</Button>
+        <Button style={{background: "#AFD3E2",}}type="submit">Submit</Button>
         {showSuccess? <Message
                         success
                         header="Party Created"

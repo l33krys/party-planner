@@ -50,7 +50,7 @@ export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refre
   
 
   return (
-    <div style={{ border: "solid", margin: "30px" }}>
+    <div style={{ background:"#146C94", border: "solid", margin: "30px" }}>
         {showAddToPartyForm ? 
         <AddToPartyForm 
             parties={parties} 
@@ -62,7 +62,7 @@ export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refre
             refreshPage={refreshPage} /> 
             : ""}
       
-      <h1>Site Users</h1>
+      <h1 style={{ color:"#F6F1F1", margin: "30px", textAlign:"center", }}>Site Users</h1>
       <Card.Group style={{ margin: "30px " }}>
         {guests ? (
             guests.map((guest, key) => (
@@ -75,7 +75,6 @@ export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refre
             <p>Loading</p>
           )}
       </Card.Group>
-      {/* {showForm ? <PartyEditForm refreshPage={refreshPage} setRefreshPage={setRefreshPage} editParty={editParty} showForm={showForm} setShowForm={setShowForm} refreshParty={refreshParty} /> : ""} */}
     </div>
   );
 };

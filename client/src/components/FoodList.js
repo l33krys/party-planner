@@ -1,6 +1,6 @@
 import React from "react";
 import FoodCard from "./FoodCard"
-import {Tab, Table} from 'semantic-ui-react'
+import { Table} from 'semantic-ui-react'
 
 export const FoodList = ({ foods, setFoods }) => {
 
@@ -19,14 +19,15 @@ export const FoodList = ({ foods, setFoods }) => {
 
   return (
     <div style={{ width: '75%', margin: '0 auto' }}>
-      <Table style={{ background: "#FEDB39", color: "black", border: "solid", margin: "30px", textAlign: "center", padding: "15px" }}>
+      <h1 style={{ textAlign: "center", color:"#146C94", margin: "30px" }}>Food List</h1>
+      <Table style={{ borderColor: "#19A7CE", background: "#AFD3E2", color: "black", border: "solid", textAlign: "center", padding: "15px" }}>
         <Table.Header>
           <Table.Row >
-          <Table.HeaderCell style={{background:"#293462", color: "white"}} rowSpan='2'>Item</Table.HeaderCell>
-          <Table.HeaderCell style={{background:"#293462", color: "white"}} rowSpan='2'>Quantity</Table.HeaderCell>
-          <Table.HeaderCell style={{background:"#293462", color: "white"}} rowSpan='2'>Party</Table.HeaderCell>
-          <Table.HeaderCell style={{background:"#293462", color: "white"}} rowSpan='2'>Assigned To Guest</Table.HeaderCell>
-          <Table.HeaderCell style={{background:"#293462", color: "white"}} rowSpan='2'></Table.HeaderCell>
+          <Table.HeaderCell style={{background:"#146C94", color: "#F6F1F1"}} rowSpan='2'>Item</Table.HeaderCell>
+          <Table.HeaderCell style={{background:"#146C94", color: "#F6F1F1"}} rowSpan='2'>Quantity</Table.HeaderCell>
+          <Table.HeaderCell style={{background:"#146C94", color: "#F6F1F1"}} rowSpan='2'>Party</Table.HeaderCell>
+          <Table.HeaderCell style={{background:"#146C94", color: "#F6F1F1"}} rowSpan='2'>Assigned To Guest</Table.HeaderCell>
+          <Table.HeaderCell style={{background:"#146C94", color: "#F6F1F1"}} rowSpan='2'></Table.HeaderCell>
           </Table.Row>
           </Table.Header>
             <Table.Body>

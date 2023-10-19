@@ -34,18 +34,18 @@ function PartyPage() {
 
   return (
     <>
-      <PartyList 
-        parties={parties} 
-        setParties={setParties} 
-        refreshPage={refreshPage} 
-        setRefreshPage={setRefreshPage} 
-        refreshParty={refreshParty} />
       <PartyForm 
         parties={parties} 
         setParties={setParties} 
         refreshPage={refreshPage} 
         setRefreshPage={setRefreshPage} 
         addParty={addParty} />
+      <PartyList 
+        parties={parties} 
+        setParties={setParties} 
+        refreshPage={refreshPage} 
+        setRefreshPage={setRefreshPage} 
+        refreshParty={refreshParty} />
     </>
   )
 }

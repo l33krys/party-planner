@@ -3,13 +3,14 @@ import Navbar from "./NavBar";
 import PartyPage from "./PartyPage";
 import FoodPage from "./FoodPage";
 import GuestPage from "./GuestPage";
+import HomePage from "./HomePage";
 
 
 function App() {
   const appStyles = {
     margin: 0,
     padding: 0,
-    backgroundColor: '#1CD6CE',
+    backgroundColor: '#F6F1F1',
     minHeight: '100vh',
   };
 
@@ -18,6 +19,9 @@ function App() {
     <div  style={appStyles}>
       <Navbar />
       <Switch>
+        <Route exact path="/">
+            <HomePage />
+          </Route>
           <Route path="/party">
             <PartyPage />
           </Route>

@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { Form, Card, Icon, Image, Button } from 'semantic-ui-react'
+import React from "react";
+import {Table, Button,} from 'semantic-ui-react'
 
 function RSVPCard({ rsvp, handleDeleteRSVP }) {
 
@@ -9,18 +7,12 @@ function RSVPCard({ rsvp, handleDeleteRSVP }) {
         handleDeleteRSVP(rsvp)
     }
 
-    // console.log(rsvp.party.name)
-
 return (
-        
-        <tr>
-            <td>{rsvp.id}</td>
-            <td>{rsvp.party.name}</td>
-            <td>{rsvp.guest.name}</td>
-            <td><Button onClick={clickDeleteRSVP}>Delete</Button></td>
-        </tr>
-
+        <Table.Row>
+            <Table.Cell>{rsvp.party.name}</Table.Cell>
+            <Table.Cell>{rsvp.guest.name}</Table.Cell>
+            <Table.Cell><Button style={{background: "#E06469"}} onClick={clickDeleteRSVP}>Delete</Button></Table.Cell>
+        </Table.Row>
     )
-
 }
 export default RSVPCard;

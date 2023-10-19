@@ -46,9 +46,9 @@ export const FoodForm = ({ refreshPage, setRefreshPage }) => {
   };
 
   return (
-    <div style={{ border: "solid", margin: "30px", textAlign: "center" }}>
-      <h3 style={{ margin: "30px" }}>Add & Assign Food Items <Button
-          style={{ background: "#D61C4E" }}
+    <div style={{ background:"#146C94",border: "solid", margin: "30px", textAlign: "center" }}>
+      <h3 style={{ margin: "30px", color:"#F6F1F1" }}>Add & Assign Food Items <Button
+          style={{ background: "#AFD3E2" }}
           onClick={toggleFormVisibility}
         >
           {showForm ? "Collapse Form" : "Expand Form"}
@@ -56,50 +56,50 @@ export const FoodForm = ({ refreshPage, setRefreshPage }) => {
     {showForm && (
       <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <Form.Field>
-        <label htmlFor="item">Item</label>
+        <label htmlFor="item"style={{color: "#F6F1F1"}}>Item</label>
         <input
           id="item"
           name="item"
           onChange={formik.handleChange}
           value={formik.values.item}
-          style={{ width: "250px" }}
+          style={{ width: "250px", textAlign: "center" }}
         />
         <p style={{ color: "red" }}> {formik.errors.item}</p>
         </Form.Field>
         <Form.Field>
-        <label htmlFor="quantity">Quantity</label>
+        <label htmlFor="quantity"style={{color: "#F6F1F1"}}>Quantity</label>
         <input
           id="quantity"
           name="quantity"
           onChange={formik.handleChange}
           value={formik.values.quantity}
-          style={{ width: "100px" }}
+          style={{ width: "250px", textAlign: "center" }}
         />
         <p style={{ color: "red" }}> {formik.errors.quantity}</p>
         </Form.Field>
         <Form.Field>
-        <label htmlFor="party_id">Party ID</label>
+        <label htmlFor="party_id"style={{color: "#F6F1F1"}}>Party ID</label>
         <input
           id="party_id"
           name="party_id"
           onChange={formik.handleChange}
           value={formik.values.party_id}
-          style={{ width: "100px" }}
+          style={{ width: "250px", textAlign: "center" }}
         />
         <p style={{ color: "red" }}> {formik.errors.party_id}</p>
         </Form.Field>
         <Form.Field>
-        <label htmlFor="guest_id">Guest ID</label>
+        <label htmlFor="guest_id"style={{color: "#F6F1F1"}}>Guest ID</label>
         <input
           id="guest_id"
           name="guest_id"
           onChange={formik.handleChange}
           value={formik.values.guest_id}
-          style={{ width: "100px" }}
+          style={{ width: "250px", textAlign: "center" }}
         />
         <p style={{ color: "red" }}> {formik.errors.guest_id}</p>
         </Form.Field>
-        <Button style={{ background: "#D61C4E" }} type="submit">Submit</Button>
+        <Button style={{ background: "#AFD3E2" }} type="submit">Submit</Button>
       </Form>
       )}
     </div>

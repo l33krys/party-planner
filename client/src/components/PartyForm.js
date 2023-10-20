@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Form, Message } from 'semantic-ui-react'
@@ -6,11 +6,20 @@ import { Button, Form, Message } from 'semantic-ui-react'
 export const PartyForm = ({ refreshPage, setRefreshPage }) => {
   const [showSuccess, setShowSuccess] = useState(false)
   const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    if (showSuccess) {
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccess]);
   
   const formSchema = yup.object().shape({
     name: yup.string().required("Must enter party name"),
     location: yup.string().required("Must enter a location"),
-    date: yup.date().required("Must use format yyyy-mm-dd")
+    date: yup.date("yyyy-mm-dd").required("Must use format yyyy-mm-dd")
   });
 
   const formik = useFormik({
@@ -21,7 +30,6 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
     },
     validationSchema: formSchema,
     onSubmit: (values, { resetForm }) => {
-        console.log(values)
       fetch("http://localhost:5555/parties", {
         method: "POST",
         headers: {
@@ -31,6 +39,7 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
       })
       .then((res) => {
         resetForm()
+        console.log(res)
         if (res.status === 201) {
           setRefreshPage(!refreshPage);
           setShowSuccess(true)
@@ -47,7 +56,7 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
 
   return (
     <div style={{ background: "#146C94", borderColor: "#19A7CE", border: "solid", margin: "30px", textAlign: "center" }}>
-      <h3 style={{ color:"#F6F1F1", margin: "30px" }}>Create a Party: <Button style={{background: "#AFD3E2",}}onClick={toggleFormVisibility}>{showForm ? "Collapse Form" : "Expand Form"}</Button></h3>
+      <h3 style={{ color:"#F6F1F1", margin: "30px" }}>Create a Party:<Button style={{background: "#AFD3E2", marginLeft: "30px" }} onClick={toggleFormVisibility}>{showForm ? "Collapse Form" : "Expand Form"}</Button></h3>
       
       {showForm && (
       <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
@@ -85,12 +94,11 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
         <p style={{ color: "red" }}> {formik.errors.date}</p>
         </Form.Field>
         <Button style={{background: "#AFD3E2",}}type="submit">Submit</Button>
-        {showSuccess? <Message
-                        success
+        {showSuccess ? <Message
+        style={{ margin: "auto", width: "350px", marginTop: "20px", color: '#19A7CE'}}
                         header="Party Created"
                         content="You're ready to start adding guests and food"
                       /> : ""}
-
       </Form>
       )}
     </div>

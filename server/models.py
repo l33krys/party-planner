@@ -29,7 +29,7 @@ class Guest(db.Model, SerializerMixin):
     def validate_name(self, key, name):
         if not name:
             raise ValueError("Name is required.")
-        if not (1 <= len(name) <= 15 and name.istitle()):
+        if not 1 <= len(name) <= 15:
             raise ValueError("Invalid name format. Name must be between 1 and 15 characters with the first letter capitalized.")
         return name
     

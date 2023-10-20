@@ -3,9 +3,9 @@ import GuestForm from "./GuestForm";
 import RSVPList from "./RSVPList";
 import UserList from "./UserList";
 
-function GuestPage() {
+function GuestPage({ parties, setParties }) {
     const [guests, setGuests] = useState([]);
-    const [parties, setParties] = useState([]);
+    // const [parties, setParties] = useState([]);
     const [RSVPs, setRSVPs] = useState([])
     const [refreshPage, setRefreshPage] = useState(false);
 
@@ -36,6 +36,27 @@ function GuestPage() {
         setGuests(updatedGuests);
       };
 
+      function handleDeleteRSVP(delRSVP) {
+        let id = 0
+        if (typeof(delRSVP) === 'object') {
+          id = delRSVP.id
+
+        } else {
+          id = delRSVP
+
+        }
+        fetch(`http://127.0.0.1:5555/guest_lists/${id}`, {
+            method: "DELETE"
+        })
+        .then(() => {
+            // const updatedRSVPs = RSVPs.filter(
+            //     (rsvp) => rsvp.id != delRSVP.id
+            // )
+            // setRSVPs(updatedRSVPs)
+            setRefreshPage(!refreshPage)
+        })
+      }
+
 return (
     <>
     <GuestForm refreshPage={refreshPage} setRefreshPage={setRefreshPage} />
@@ -44,7 +65,8 @@ return (
         setGuests={setGuests}
         refreshPage={refreshPage} 
         setRefreshPage={setRefreshPage}
-        parties={parties} />
+        parties={parties}
+        handleDeleteRSVP={handleDeleteRSVP} />
     <RSVPList 
         guests={guests} 
         parties={parties} 
@@ -52,7 +74,8 @@ return (
         RSVPs={RSVPs}
         setRSVPs={setRSVPs} 
         refreshPage={refreshPage} 
-        setRefreshPage={setRefreshPage}/>
+        setRefreshPage={setRefreshPage}
+        handleDeleteRSVP={handleDeleteRSVP}/>
     </>
 )
 }

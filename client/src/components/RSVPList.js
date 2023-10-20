@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Button} from 'semantic-ui-react'
 
-export const RSVPList = ({ RSVPs, setRSVPs, refreshPage, setRefreshPage }) => {
+export const RSVPList = ({ RSVPs, setRSVPs, refreshPage, setRefreshPage, handleDeleteRSVP }) => {
 
   const sortedRSVPs = RSVPs.sort((a, b) => {
     const partyA = a.party.name.toUpperCase();
@@ -24,18 +24,18 @@ export const RSVPList = ({ RSVPs, setRSVPs, refreshPage, setRefreshPage }) => {
     return acc;
   }, {});
 
-  function handleDeleteRSVP(delRSVP) {
-    fetch(`http://127.0.0.1:5555/guest_lists/${delRSVP.id}`, {
-        method: "DELETE"
-    })
-    .then(() => {
-        const updatedRSVPs = RSVPs.filter(
-            (rsvp) => rsvp.id != delRSVP.id
-        )
-        setRSVPs(updatedRSVPs)
-        setRefreshPage(!refreshPage)
-    })
-  }
+  // function handleDeleteRSVP(delRSVP) {
+  //   fetch(`http://127.0.0.1:5555/guest_lists/${delRSVP.id}`, {
+  //       method: "DELETE"
+  //   })
+  //   .then(() => {
+  //       const updatedRSVPs = RSVPs.filter(
+  //           (rsvp) => rsvp.id != delRSVP.id
+  //       )
+  //       setRSVPs(updatedRSVPs)
+  //       setRefreshPage(!refreshPage)
+  //   })
+  // }
 
   return (
     <div style={{ width: '75%', margin: '0 auto' }}>
@@ -45,7 +45,6 @@ export const RSVPList = ({ RSVPs, setRSVPs, refreshPage, setRefreshPage }) => {
           <Table.Row>
             <Table.HeaderCell style={{background:"#146C94", color: "#F6F1F1"}} rowSpan='1'>Party</Table.HeaderCell>
             <Table.HeaderCell style={{background:"#146C94", color: "#F6F1F1"}} rowSpan='3'>Guest</Table.HeaderCell>
-            <Table.HeaderCell style={{background:"#146C94", color: "#F6F1F1"}} rowSpan='1'></Table.HeaderCell>
           </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -57,13 +56,11 @@ export const RSVPList = ({ RSVPs, setRSVPs, refreshPage, setRefreshPage }) => {
                   <span key={index}>{rsvp.guest.name}{index !== groupedRSVPs[partyName].length - 1 ? ', ' : ''}</span>
                 ))}
               </Table.Cell>
-              <Table.Cell>
-                <Button style={{ background: "#E06469" }} onClick={() => handleDeleteRSVP(groupedRSVPs[partyName][0])}>Delete</Button>
-              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
       </Table>
+      <br/>
     </div>
   );
 };

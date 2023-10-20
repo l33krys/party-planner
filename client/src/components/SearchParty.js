@@ -2,43 +2,33 @@ import React from 'react'
 import { Select } from 'semantic-ui-react'
 
 
-const SearchParty = ({ parties, selectedParties }) => {
-    const countryOptions = [
-        { key: 'af', value: 'af', text: 'Afghanistan' },
-        { key: 'ax', value: 'ax', text: 'Aland Islands' },
-        { key: 'al', value: 'al', text: 'Albania' },
-        { key: 'dz', value: 'dz', text: 'Algeria' },
-        { key: 'as', value: 'as', text: 'American Samoa' },
-        { key: 'ad', value: 'ad', text: 'Andorra' },
-        { key: 'ao', value: 'ao', text: 'Angola' },
-        { key: 'ai', value: 'ai', text: 'Anguilla' },
-        { key: 'ag', value: 'ag', text: 'Antigua' },
-        { key: 'ar', value: 'ar', text: 'Argentina' },
-        { key: 'am', value: 'am', text: 'Armenia' },
-        { key: 'aw', value: 'aw', text: 'Aruba' },
-        { key: 'au', value: 'au', text: 'Australia' },
-        { key: 'at', value: 'at', text: 'Austria' },
-        { key: 'az', value: 'az', text: 'Azerbaijan' },
-        { key: 'bs', value: 'bs', text: 'Bahamas' },
-        { key: 'bh', value: 'bh', text: 'Bahrain' },
-        { key: 'bd', value: 'bd', text: 'Bangladesh' },
-        { key: 'bb', value: 'bb', text: 'Barbados' },
-        { key: 'by', value: 'by', text: 'Belarus' },
-        { key: 'be', value: 'be', text: 'Belgium' },
-        { key: 'bz', value: 'bz', text: 'Belize' },
-        { key: 'bj', value: 'bj', text: 'Benin' },
+const SearchParty = ({ parties }) => {
+    const options = [
+        { key: 1, text: 'Choice 1', value: 1 },
+        { key: 2, text: 'Choice 2', value: 2 },
+        { key: 3, text: 'Choice 3', value: 3 },
       ]
     
-      const partylist = []
+    console.log(parties)
+    const partylist = []
     const test = parties.map((party) => {
-        partylist.push(party)
+        {partylist.push(party)}
     })
+
+    // function createPartyOptions(parties) {
+    //     for (let i = 0; i < parties.length; i++) {
+    //         { key: {i}, text: {parties.name}, value: {parties.id} } 
+    // }
+
+    let partyOptions = Object.assign({}, ...parties.map((party) => ({["party.id"]: party.name})))
+    let partyOptions2 = Object.fromEntries(parties.map((party) => [party.id, party.name]))
+    console.log(partyOptions2)
 
     return (
 
-        <div>
-            <h1>Select Party</h1>
-            <Select placeholder='Select a party' options={countryOptions} />
+        <div style={{ width: '75%', margin: '0 auto' }}>
+            {/* <h3>Filter Party</h3>
+            <Select placeholder='Select a party' options={options} /> */}
 
         </div>
 

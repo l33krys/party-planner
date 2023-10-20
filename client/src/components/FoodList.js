@@ -38,6 +38,7 @@ export const FoodList = ({ foods, setFoods }) => {
               }
             </Table.Body>
       </Table>
+      <br />
     </div>
   );
 };

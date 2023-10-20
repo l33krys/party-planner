@@ -6,7 +6,7 @@ import UserCard from "./UserCard";
 import AddToPartyForm from "./AddToPartyForm";
 
 
-export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refreshGuests, parties }) => {
+export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refreshGuests, parties, handleDeleteRSVP }) => {
 //   const [showForm, setShowForm] = useState(false)
   const [editGuest, setEditGuest] = useState([{}])
   const [selectedParty, setSelectedParty] = useState([{}])
@@ -47,13 +47,13 @@ export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refre
             setSelectedGuest(guest)
         }
     }
-  
 
   return (
     <div style={{ background:"#146C94", border: "solid", margin: "30px" }}>
         {showAddToPartyForm ? 
         <AddToPartyForm 
             parties={parties} 
+            guests={guests}
             selectedParty={selectedParty}
             selectedGuest={selectedGuest}
             setShowAddToPartyForm={setShowAddToPartyForm} 
@@ -66,9 +66,16 @@ export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refre
       <Card.Group style={{ margin: "30px " }}>
         {guests ? (
             guests.map((guest, key) => (
-              <UserCard key={key} guest={guest} handleDeleteGuest={handleDeleteGuest} handleEditGuest={handleEditGuest} setSelectedGuest={setSelectedGuest} handleAddToParty={handleAddToParty}
-              setRefreshPage={setRefreshPage} 
-              refreshPage={refreshPage} />
+              <UserCard 
+                key={key} 
+                guest={guest} 
+                handleDeleteGuest={handleDeleteGuest} 
+                handleEditGuest={handleEditGuest} 
+                setSelectedGuest={setSelectedGuest} 
+                handleAddToParty={handleAddToParty}
+                setRefreshPage={setRefreshPage} 
+                refreshPage={refreshPage}
+                handleDeleteRSVP={handleDeleteRSVP}  />
             ))
           ) :
           (

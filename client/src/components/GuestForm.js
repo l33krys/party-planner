@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Message } from 'semantic-ui-react'
 
 export const GuestForm = ({ refreshPage, setRefreshPage }) => {
   const [showForm, setShowForm] = useState(false);
+  const [showErrorEmailMessage, setShowErrorEmailMessage] = useState(false)
+  const [showSuccessRegistration, setShowSuccessRegistration] = useState(false)
+
+  useEffect(() => {
+    if (showSuccessRegistration) {
+      const timer = setTimeout(() => {
+        setShowSuccessRegistration(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessRegistration]);
 
   const formSchema = yup.object().shape({
-    name: yup.string().required("Must enter a name"),
+    name: yup.string().uppercase().required("Must enter a name"),
     email: yup.string().required("Must enter an email"),
     phone_number: yup.string().required("Must use format XXX-XXX-XXXX"),
   });
@@ -25,11 +36,21 @@ export const GuestForm = ({ refreshPage, setRefreshPage }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values, null, 2),
+        body: JSON.stringify({
+          name: formik.values.name.charAt(0).toUpperCase() + formik.values.name.substr(1).toLowerCase(),
+          email: formik.values.email,
+          phone_number: formik.values.phone_number
+        }, null, 2),
       }).then((res) => {
-        resetForm();
         if (res.status === 201) {
           setRefreshPage(!refreshPage);
+          setShowErrorEmailMessage(false)
+          setShowSuccessRegistration(true)
+          resetForm();
+        }
+        if (res.status === 400) {
+          setShowErrorEmailMessage(true)
+          setShowSuccessRegistration(false)
         }
       });
     },
@@ -41,7 +62,7 @@ export const GuestForm = ({ refreshPage, setRefreshPage }) => {
 
   return (
     <div style={{ background: "#146C94", borderColor: "#19A7CE", border: "solid", margin: "30px", textAlign: "center" }}>
-      <h2 style={{ color: "#F6F1F1", margin: "30px" }}>Add Yourself: <Button style={{ background: "#AFD3E2" }} onClick={toggleFormVisibility}>{showForm ? "Collapse Form" : "Expand Form"}</Button></h2>
+      <h2 style={{ color: "#F6F1F1", margin: "30px" }}>Add Yourself: <Button style={{background: "#AFD3E2", marginLeft: "30px" }} onClick={toggleFormVisibility}>{showForm ? "Collapse Form" : "Expand Form"}</Button></h2>
 
       {showForm && (
         <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
@@ -84,6 +105,8 @@ export const GuestForm = ({ refreshPage, setRefreshPage }) => {
             />
             <p style={{ color: "red" }}> {formik.errors.phone_number}</p>
           </Form.Field>
+          {showErrorEmailMessage ? <Message style={{ margin: "auto", width: "250px", marginBottom: "20px", color: '#E06469'}} header="Attention Required" content="Email has already been registered"></Message> : ""}
+          {showSuccessRegistration ? <Message style={{ margin: "auto", width: "250px", marginBottom: "20px", color: '#19A7CE'}} header="Registration Completed" content="You're ready to start a party!"></Message> : ""}
           <Button style={{ background: "#AFD3E2" }} type="submit">
             Submit
           </Button>

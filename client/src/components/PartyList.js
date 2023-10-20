@@ -16,6 +16,7 @@ export const PartyList = ({ parties, setParties, refreshPage, setRefreshPage, re
             (party) => party.id !== delParty.id
         )
         setParties(updatedParties)
+        setRefreshPage(!refreshPage)
     })
 
   }

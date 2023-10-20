@@ -19,6 +19,7 @@ export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, parti
             (guest) => guest.id != delGuest.id
         )
         setGuests(updatedGuests)
+        setRefreshPage(!refreshPage)
     })
 
   }

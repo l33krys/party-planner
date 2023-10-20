@@ -5,6 +5,8 @@ import { Card, Icon, Image, Button } from 'semantic-ui-react'
 
 
 function UserCard({ guest, handleDeleteGuest, handleEditGuest, setSelectedGuest, handleAddToParty, refreshPage, setRefreshPage }) {
+
+    const [deleteRSVP, setDeleteRSVP] = useState("")
     
     function clickDeleteGuest(e) {
         handleDeleteGuest(guest)
@@ -21,7 +23,15 @@ function UserCard({ guest, handleDeleteGuest, handleEditGuest, setSelectedGuest,
 
     // console.log(guest.guest_lists.map((item) => item.party.name))
 
-    
+    function handleDeleteRSVP(deleteRSVP) {
+
+        fetch(`http://127.0.0.1:5555/guest_lists/${deleteRSVP}`, {
+            method: "DELETE"
+        })
+        .then(() => {
+            setRefreshPage(!refreshPage)
+        })
+      }
 
     return (
         <>
@@ -37,9 +47,9 @@ function UserCard({ guest, handleDeleteGuest, handleEditGuest, setSelectedGuest,
                     <Card.Meta>{guest.phone_number}</Card.Meta>
                     <Card.Description>
                         {guest.guest_lists.length > 0 ? `RSVP'd to ${guest.guest_lists.length} parties` : "Not going to party"}
-                        {guest.guest_lists.map((item, i) => <div key={i}>- {item.party.name}</div>)}
+                        {guest.guest_lists.map((item, i) => <div key={i}>- {item.party.name} <Button onClick={(e) => {handleDeleteRSVP(item.id)}} size="mini">Delete</Button></div>)}
                     </Card.Description>
-
+                    <br/>
                     <Button style={{ padding: "10px", background: "#E06469" }} onClick={clickDeleteGuest}>Delete</Button>
                     <Button style={{ padding: "10px", background: "#F2B6A0" }} onClick={clickAddToParty}>Add to Party</Button>
                     

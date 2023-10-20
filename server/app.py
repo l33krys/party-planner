@@ -368,13 +368,13 @@ class GuestRSVP(Resource):
 
     def get(self, id):
 
-        parties = [party.to_dict(only=("party.name", )) for party in GuestList.query.filter_by(guest_id=id).all()]
+        parties = [party.to_dict(only=("party.name", "party.id" )) for party in GuestList.query.filter_by(guest_id=id).all()]
 
         return make_response(
             parties, 200
         )
 
-api.add_resource(GuestRSVP, "/guests/<int:id>/parties")
+api.add_resource(GuestRSVP, "/guests/parties/<int:id>")
 
 
 api.add_resource(Parties, "/parties")

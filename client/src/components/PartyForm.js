@@ -6,6 +6,7 @@ import { Button, Form, Message } from 'semantic-ui-react'
 export const PartyForm = ({ refreshPage, setRefreshPage }) => {
   const [showSuccess, setShowSuccess] = useState(false)
   const [showForm, setShowForm] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
 
   useEffect(() => {
     if (showSuccess) {
@@ -19,7 +20,7 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
   const formSchema = yup.object().shape({
     name: yup.string().required("Must enter party name"),
     location: yup.string().required("Must enter a location"),
-    date: yup.date("yyyy-mm-dd").required("Must use format yyyy-mm-dd")
+    date: yup.string().required("Must use format yyyy-mm-dd")
   });
 
   const formik = useFormik({
@@ -38,11 +39,15 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
         body: JSON.stringify(values, null, 2),
       })
       .then((res) => {
-        resetForm()
-        console.log(res)
         if (res.status === 201) {
           setRefreshPage(!refreshPage);
+          setShowErrorMessage(false)
           setShowSuccess(true)
+          resetForm();
+        }
+        if (res.status === 400){
+          setShowErrorMessage(true)
+          setShowSuccess(false)
         }
       })
     },
@@ -94,6 +99,7 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
         <p style={{ color: "red" }}> {formik.errors.date}</p>
         </Form.Field>
         <Button style={{background: "#AFD3E2",}}type="submit">Submit</Button>
+        {showErrorMessage ? <Message style={{ margin: "auto", width: "350px", marginTop: "20px", color: '#E06469'}} header="Attention Required" content="Input(s) Invalid"></Message> : ""}
         {showSuccess ? <Message
         style={{ margin: "auto", width: "350px", marginTop: "20px", color: '#19A7CE'}}
                         header="Party Created"

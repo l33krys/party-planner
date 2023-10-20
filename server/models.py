@@ -89,7 +89,10 @@ class Party(db.Model, SerializerMixin):
     @validates("date")
     def validate_date(self, key, date):
         if not date:
-            raise ValueError("Date is required. Please use YYYY-MM-DD.")
+            raise ValueError("Date is required.")
+        date_regex = r'^\d{4}-\d{2}-\d{2}$'
+        if not re.match(date_regex, date):
+            raise ValueError("Invalid date format. Please use yyyy-mm-dd format.")
         return date
     
     def __repr__(self):

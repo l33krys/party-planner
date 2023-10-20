@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Message } from 'semantic-ui-react'
 
 export const FoodForm = ({ refreshPage, setRefreshPage }) => {
   const [showForm, setShowForm] = useState(false);
+  const [showFoodSuccess, setShowFoodSuccess] = useState(false)
 
   const formSchema = yup.object().shape({
     item: yup.string().required("Must enter party name"),
@@ -12,6 +13,15 @@ export const FoodForm = ({ refreshPage, setRefreshPage }) => {
     party_id: yup.number().required("Party must be exist"),
     guest_id: yup.number().required("Guest must exist")
   });
+
+  useEffect(() => {
+    if (showFoodSuccess) {
+      const timer = setTimeout(() => {
+        setShowFoodSuccess(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showFoodSuccess]);
 
   const formik = useFormik({
     initialValues: {
@@ -34,9 +44,10 @@ export const FoodForm = ({ refreshPage, setRefreshPage }) => {
             guest_id: parseInt(values.guest_id),
           }, null, 2),
       }).then((res) => {
-        resetForm()
         if (res.status == 201) {
+          resetForm()
           setRefreshPage(!refreshPage);
+          setShowFoodSuccess(!showFoodSuccess)
         }
       });
     },
@@ -48,7 +59,7 @@ export const FoodForm = ({ refreshPage, setRefreshPage }) => {
   return (
     <div style={{ background:"#146C94",border: "solid", margin: "30px", textAlign: "center" }}>
       <h3 style={{ margin: "30px", color:"#F6F1F1" }}>Add & Assign Food Items <Button
-          style={{ background: "#AFD3E2" }}
+          style={{background: "#AFD3E2", marginLeft: "30px" }}
           onClick={toggleFormVisibility}
         >
           {showForm ? "Collapse Form" : "Expand Form"}
@@ -100,6 +111,11 @@ export const FoodForm = ({ refreshPage, setRefreshPage }) => {
         <p style={{ color: "red" }}> {formik.errors.guest_id}</p>
         </Form.Field>
         <Button style={{ background: "#AFD3E2" }} type="submit">Submit</Button>
+        {showFoodSuccess ? <Message
+        style={{ margin: "auto", width: "350px", marginTop: "20px", color: '#19A7CE'}}
+                        header="Success: Food Created & Assigned"
+                        content="Thanks for your contribution"
+                      /> : ""}
       </Form>
       )}
     </div>

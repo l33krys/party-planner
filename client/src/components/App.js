@@ -59,7 +59,10 @@ function App() {
               setRefreshPage={setRefreshPage} />
           </Route>
           <Route path="/food">
-            <FoodPage />
+            <FoodPage 
+              parties={parties}
+              refreshPage={refreshPage}
+              setRefreshPage={setRefreshPage}/>
           </Route>
           <Route path="/guest">
             <GuestPage

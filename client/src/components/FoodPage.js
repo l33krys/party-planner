@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
 import FoodForm from "./FoodForm";
 import FoodList from "./FoodList";
+import SearchParty from "./SearchParty";
 
 
-function FoodPage() {
+function FoodPage({ parties, refreshPage, setRefreshPage }) {
   const [foods, setFoods] = useState([{}]);
-  const [refreshPage, setRefreshPage] = useState(false);
+  // const [refreshPage, setRefreshPage] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:5555/foods")
@@ -23,17 +24,19 @@ function FoodPage() {
   return (
     <>
     <FoodForm
-    foods={foods} 
-    setFoods={setFoods} 
-    refreshPage={refreshPage} 
-    setRefreshPage={setRefreshPage} 
-    addFood={addFood} />
+      foods={foods} 
+      setFoods={setFoods} 
+      refreshPage={refreshPage} 
+      setRefreshPage={setRefreshPage} 
+      addFood={addFood} />
+    <SearchParty
+      parties={parties} />
     <FoodList
-    foods={foods} 
-    setFoods={setFoods} 
-    refreshPage={refreshPage} 
-    setRefreshPage={setRefreshPage}
-    food={foods} />
+      foods={foods} 
+      setFoods={setFoods} 
+      refreshPage={refreshPage} 
+      setRefreshPage={setRefreshPage}
+      food={foods} />
     </>
   )
 }

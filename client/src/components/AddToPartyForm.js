@@ -46,6 +46,16 @@ export const AddToPartyForm = ({ parties, guests, selectedGuest, setShowAddToPar
   return (
     <div style={{textAlign:"center", background: "#F2B6A0", border: "solid", borderColor: "#E06469", margin: "30px " }}>
       <h3 style={{ margin: "30px" }}>Add to Party:</h3>
+      <Message style={{ margin: "auto", width: "500px", marginBottom: "20px" }}>
+      {parties ? (
+            parties.map((party, key) => 
+              <div key={key}>{party.name} (ID: {party.id})</div>
+            )
+          ) :
+          (
+            <p>Loading</p>
+          )}
+      </Message>
       <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
       <Form.Field>
         <label htmlFor="guest_id">Guest ID</label>

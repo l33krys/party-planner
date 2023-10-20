@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 
 
-function UserCard({ guest, handleDeleteGuest, handleEditGuest, setSelectedGuest, handleAddToParty, refreshPage, setRefreshPage }) {
-
-    const [deleteRSVP, setDeleteRSVP] = useState("")
-    
+function UserCard({ guest, handleDeleteGuest, handleEditGuest, setSelectedGuest, handleAddToParty, refreshPage, setRefreshPage, handleDeleteRSVP }) {
+   
     function clickDeleteGuest(e) {
         handleDeleteGuest(guest)
     }
@@ -21,17 +19,19 @@ function UserCard({ guest, handleDeleteGuest, handleEditGuest, setSelectedGuest,
         handleAddToParty(guest)
     }
 
-    // console.log(guest.guest_lists.map((item) => item.party.name))
+    // function clickDeleteRSVP(entry) {
+    //     handleDeleteRSVP(entry)
+    // }
 
-    function handleDeleteRSVP(deleteRSVP) {
+    // function handleDeleteRSVP(delRSVP) {
 
-        fetch(`http://127.0.0.1:5555/guest_lists/${deleteRSVP}`, {
-            method: "DELETE"
-        })
-        .then(() => {
-            setRefreshPage(!refreshPage)
-        })
-      }
+    //     fetch(`http://127.0.0.1:5555/guest_lists/${delRSVP}`, {
+    //         method: "DELETE"
+    //     })
+    //     .then(() => {
+    //         setRefreshPage(!refreshPage)
+    //     })
+    //   }
 
     return (
         <>

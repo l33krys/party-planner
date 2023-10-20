@@ -56,7 +56,7 @@ export const PartyForm = ({ refreshPage, setRefreshPage }) => {
 
   return (
     <div style={{ background: "#146C94", borderColor: "#19A7CE", border: "solid", margin: "30px", textAlign: "center" }}>
-      <h3 style={{ color:"#F6F1F1", margin: "30px" }}>Create a Party: <Button style={{background: "#AFD3E2",}}onClick={toggleFormVisibility}>{showForm ? "Collapse Form" : "Expand Form"}</Button></h3>
+      <h3 style={{ color:"#F6F1F1", margin: "30px" }}>Create a Party:<Button style={{background: "#AFD3E2", marginLeft: "30px" }} onClick={toggleFormVisibility}>{showForm ? "Collapse Form" : "Expand Form"}</Button></h3>
       
       {showForm && (
       <Form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>

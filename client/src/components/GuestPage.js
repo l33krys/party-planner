@@ -3,18 +3,18 @@ import GuestForm from "./GuestForm";
 import RSVPList from "./RSVPList";
 import UserList from "./UserList";
 
-function GuestPage({ parties, setParties }) {
-    const [guests, setGuests] = useState([]);
+function GuestPage({ guests, setGuests, parties, setParties, refreshPage, setRefreshPage }) {
+    // const [guests, setGuests] = useState([]);
     // const [parties, setParties] = useState([]);
     const [RSVPs, setRSVPs] = useState([])
-    const [refreshPage, setRefreshPage] = useState(false);
+    // const [refreshPage, setRefreshPage] = useState(false);
 
-    useEffect(() => {
-        fetch("http://localhost:5555/guests")  
-          .then(response => response.json())
-          .then((data) => setGuests(data))
-          .catch(error => console.error("Error fetching data:", error));
-      }, [refreshPage]);
+    // useEffect(() => {
+    //     fetch("http://localhost:5555/guests")  
+    //       .then(response => response.json())
+    //       .then((data) => setGuests(data))
+    //       .catch(error => console.error("Error fetching data:", error));
+    //   }, [refreshPage]);
     
       useEffect(() => {
         fetch("http://localhost:5555/guest_lists")  
@@ -59,7 +59,9 @@ function GuestPage({ parties, setParties }) {
 
 return (
     <>
-    <GuestForm refreshPage={refreshPage} setRefreshPage={setRefreshPage} />
+    <GuestForm 
+        refreshPage={refreshPage} 
+        setRefreshPage={setRefreshPage} />
     <UserList 
         guests={guests}
         setGuests={setGuests}

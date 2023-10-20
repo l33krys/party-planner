@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from "react";
 import FoodForm from "./FoodForm";
 import FoodList from "./FoodList";
-import SearchParty from "./SearchParty";
 
-
-function FoodPage({ parties, refreshPage, setRefreshPage }) {
+function FoodPage({ guests, parties, refreshPage, setRefreshPage }) {
   const [foods, setFoods] = useState([{}]);
   // const [refreshPage, setRefreshPage] = useState(false);
 
@@ -28,9 +26,9 @@ function FoodPage({ parties, refreshPage, setRefreshPage }) {
       setFoods={setFoods} 
       refreshPage={refreshPage} 
       setRefreshPage={setRefreshPage} 
-      addFood={addFood} />
-    <SearchParty
-      parties={parties} />
+      addFood={addFood}
+      parties={parties}
+      guests={guests} />
     <FoodList
       foods={foods} 
       setFoods={setFoods} 

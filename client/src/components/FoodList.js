@@ -17,6 +17,10 @@ export const FoodList = ({ foods, setFoods }) => {
 
   }
 
+    const foodSort = foods.sort(function(party1, party2) {
+      return party1.party.name.localeCompare(party2.party.name)
+    })
+
   return (
     <div style={{ width: '75%', margin: '0 auto' }}>
       <h1 style={{ textAlign: "center", color:"#146C94", margin: "30px" }}>Food List</h1>
@@ -31,7 +35,7 @@ export const FoodList = ({ foods, setFoods }) => {
           </Table.Row>
           </Table.Header>
             <Table.Body>
-              {foods ? foods.map((food, key) => (
+              {foods ? foodSort.map((food, key) => (
                     <FoodCard key={key} food={food} handleDelete={handleDelete} />
                 )) :
                 <p>Loading...</p>

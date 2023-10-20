@@ -3,16 +3,16 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Form, Message } from 'semantic-ui-react'
 
-export const FoodForm = ({ refreshPage, setRefreshPage }) => {
+export const FoodForm = ({ guests, parties, refreshPage, setRefreshPage }) => {
   const [showForm, setShowForm] = useState(false);
   const [showFoodSuccess, setShowFoodSuccess] = useState(false)
   const [showErrorMessage, setShowErrorMessage] = useState(false)
 
   const formSchema = yup.object().shape({
-    item: yup.string().required("Must enter party name"),
+    item: yup.string().required("Must enter a food item"),
     quantity: yup.number().required("Must enter a number quantity"),
-    party_id: yup.number().required("Party must be exist"),
-    guest_id: yup.number().required("Guest must exist")
+    party_id: yup.number().max(parties.length, "Must be a valid party ID").required("Must enter valid Party ID"),
+    guest_id: yup.number().max(guests.length, "Must be a valid party ID").required("Must enter valid Guest ID")
   });
 
   useEffect(() => {

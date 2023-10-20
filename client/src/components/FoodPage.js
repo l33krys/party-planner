@@ -4,7 +4,6 @@ import FoodList from "./FoodList";
 
 function FoodPage({ guests, parties, refreshPage, setRefreshPage }) {
   const [foods, setFoods] = useState([{}]);
-  // const [refreshPage, setRefreshPage] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:5555/foods")

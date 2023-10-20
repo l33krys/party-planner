@@ -6,11 +6,10 @@ import { Form, Button, Message } from 'semantic-ui-react'
 export const AddToPartyForm = ({ parties, guests, selectedGuest, setShowAddToPartyForm, showAddToPartyForm, setRefreshPage, refreshPage }) => {
   
   const [showErrorMessage, setShowErrorMessage] = useState(false)
-  // const [showSuccessMessage, setShowSuccessMessage] = useState(false)
 
   const formSchema = yup.object().shape({
-    guest_id: yup.number().max(guests.length, "Must be a valid party ID").required("Must enter valid Guest ID"),
-    party_id: yup.number().max(parties.length, "Must be a valid party ID").required("Must enter valid Party ID"),
+    guest_id: yup.number().max(guests.length, "Must be a valid Guest ID").required("Must enter valid Guest ID"),
+    party_id: yup.number().max(parties.length, "Must be a valid Party ID").required("Must enter valid Party ID"),
   });
 
   const formik = useFormik({

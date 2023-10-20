@@ -1,37 +1,16 @@
 import React from "react";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { Card, Icon, Image, Button } from 'semantic-ui-react'
+import { Card, Image, Button } from 'semantic-ui-react'
 
 
-function UserCard({ guest, handleDeleteGuest, handleEditGuest, setSelectedGuest, handleAddToParty, refreshPage, setRefreshPage, handleDeleteRSVP }) {
+function UserCard({ guest, handleDeleteGuest, handleEditGuest, handleAddToParty, handleDeleteRSVP }) {
    
     function clickDeleteGuest(e) {
         handleDeleteGuest(guest)
     }
 
-    function clickEditGuest(e) {
-        handleEditGuest(guest)
-    }
-
     function clickAddToParty(e) {
-        // setSelectedGuest(guest)
         handleAddToParty(guest)
     }
-
-    // function clickDeleteRSVP(entry) {
-    //     handleDeleteRSVP(entry)
-    // }
-
-    // function handleDeleteRSVP(delRSVP) {
-
-    //     fetch(`http://127.0.0.1:5555/guest_lists/${delRSVP}`, {
-    //         method: "DELETE"
-    //     })
-    //     .then(() => {
-    //         setRefreshPage(!refreshPage)
-    //     })
-    //   }
 
     return (
         <>

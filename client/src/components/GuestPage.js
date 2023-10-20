@@ -3,9 +3,9 @@ import GuestForm from "./GuestForm";
 import RSVPList from "./RSVPList";
 import UserList from "./UserList";
 
-function GuestPage() {
+function GuestPage({ parties, setParties }) {
     const [guests, setGuests] = useState([]);
-    const [parties, setParties] = useState([]);
+    // const [parties, setParties] = useState([]);
     const [RSVPs, setRSVPs] = useState([])
     const [refreshPage, setRefreshPage] = useState(false);
 

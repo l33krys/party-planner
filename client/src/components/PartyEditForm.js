@@ -30,8 +30,7 @@ export const PartyEditForm = ({ refreshPage, setRefreshPage, editParty, showForm
       })
       .then((res) => {
         resetForm()
-        console.log(res.status)
-        if (res.status === 200) {
+        if (res.status === 202) {
           setRefreshPage(!refreshPage);
           setShowForm(!showForm)
         }

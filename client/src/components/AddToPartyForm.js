@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Form, Button } from 'semantic-ui-react'
+import { Form, Button, Message } from 'semantic-ui-react'
 
-export const AddToPartyForm = ({ selectedGuest, setShowAddToPartyForm, showAddToPartyForm, setRefreshPage, refreshPage }) => {
+export const AddToPartyForm = ({ parties, guests, selectedGuest, setShowAddToPartyForm, showAddToPartyForm, setRefreshPage, refreshPage }) => {
   
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
+  // const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+
   const formSchema = yup.object().shape({
-    guest_id: yup.number().required("Must enter valid Guest ID"),
-    party_id: yup.number().required("Must enter valid Party ID"),
+    guest_id: yup.number().max(guests.length, "Must be valid party ID").required("Must enter valid Guest ID"),
+    party_id: yup.number().max(parties.length, "Must be valid party ID").required("Must enter valid Party ID"),
   });
 
   const formik = useFormik({
@@ -33,6 +36,9 @@ export const AddToPartyForm = ({ selectedGuest, setShowAddToPartyForm, showAddTo
           setRefreshPage(!refreshPage);
           setShowAddToPartyForm(!showAddToPartyForm)
         }
+        if (res.status == 400) {
+          setShowErrorMessage(true)
+        }
       })
     },
   });
@@ -50,7 +56,7 @@ export const AddToPartyForm = ({ selectedGuest, setShowAddToPartyForm, showAddTo
           onChange={formik.handleChange}
           value={formik.values.guest_id}
         />
-        <p style={{ color: "red" }}> {formik.errors.name}</p>
+        <p style={{ color: "#146C94" }}> {formik.errors.guest_id}</p>
         </Form.Field>
         <Form.Field>
         <label htmlFor="party_id">Party ID</label>
@@ -61,8 +67,9 @@ export const AddToPartyForm = ({ selectedGuest, setShowAddToPartyForm, showAddTo
           onChange={formik.handleChange}
           value={formik.values.party_id}
         />
-        <p style={{ color: "red" }}> {formik.errors.location}</p>
+        <p style={{ color: "#146C94" }}> {formik.errors.party_id}</p>
         </Form.Field>
+        {showErrorMessage ? <Message style={{ margin: "auto", width: "250px", marginBottom: "20px", color: '#E06469' }} header="Attention Required" content="You already RSVP'd"></Message> : ""}
         <Button style={{background: "#AFD3E2",}} type="submit">RSVP</Button>
         <Button style={{background: "#E06469",}} onClick={(e) => setShowAddToPartyForm(false)}>Cancel</Button>
       </Form>

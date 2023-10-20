@@ -47,13 +47,13 @@ export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refre
             setSelectedGuest(guest)
         }
     }
-  
 
   return (
     <div style={{ background:"#146C94", border: "solid", margin: "30px" }}>
         {showAddToPartyForm ? 
         <AddToPartyForm 
             parties={parties} 
+            guests={guests}
             selectedParty={selectedParty}
             selectedGuest={selectedGuest}
             setShowAddToPartyForm={setShowAddToPartyForm} 

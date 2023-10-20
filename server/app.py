@@ -98,7 +98,7 @@ class PartyById(Resource):
                 db.session.commit()
 
                 return make_response(
-                    party.to_dict(), 200
+                    party.to_dict(), 202
                 )
             except ValueError:
                 return make_response(
@@ -209,17 +209,39 @@ class Guests(Resource):
         return guests, 200
     
     def post(self):
+
         guest_json = request.get_json()
-        guest = Guest()
-        try:
-            for key in guest_json:
-                if hasattr(guest, key):
-                    setattr(guest, key, guest_json[key])
-            db.session.add(guest)
-            db.session.commit()
-            return make_response(guest.to_dict(), 201)
-        except ValueError:
-            return make_response({"errors": ["validation errors"]}, 400)
+        email_json = guest_json["email"]
+        exists = [guest.email for guest in Guest.query.filter(Guest.email==email_json).all()]
+    
+        if exists:
+            return make_response(
+               {"errors": ["Email has already been registered"]}, 400
+            )
+        else:
+            try:
+                guest = Guest()
+                for key in guest_json:
+                    if hasattr(guest, key):
+                        setattr(guest, key, guest_json[key])
+                db.session.add(guest)
+                db.session.commit()
+                return make_response(guest.to_dict(), 201)
+            except ValueError:
+                return make_response({"errors": ["validation errors"]}, 400)  
+    
+
+        # guest_json = request.get_json()
+        # guest = Guest()
+        # try:
+        #     for key in guest_json:
+        #         if hasattr(guest, key):
+        #             setattr(guest, key, guest_json[key])
+        #     db.session.add(guest)
+        #     db.session.commit()
+        #     return make_response(guest.to_dict(), 201)
+        # except ValueError:
+        #     return make_response({"errors": ["validation errors"]}, 400)
         
 
 class GuestById(Resource):
@@ -266,22 +288,31 @@ class GuestLists(Resource):
     def post(self):
 
         data = request.get_json()
-        guestlist = GuestList()
-        try:
-            for key in data:
-                if hasattr(guestlist, key):
-                    setattr(guestlist, key, data[key])
-        
-            db.session.add(guestlist)
-            db.session.commit()
+        id_party = data["party_id"]
+        id_guest = data["guest_id"]
+        exists = [guest_list.guest.id for guest_list in GuestList.query.filter(GuestList.party_id==id_party).all()]
+    
+        if id_guest in exists:
+            return make_response(
+               {"errors": ["Already RSVP'd"]}, 400
+            )
+        else:
+            try:
+                guestlist = GuestList()
+                for key in data:
+                    if hasattr(guestlist, key):
+                        setattr(guestlist, key, data[key])
+            
+                db.session.add(guestlist)
+                db.session.commit()
 
-            return make_response(
-                guestlist.to_dict(), 201
-            )
-        except ValueError:
-            return make_response(
-                {"errors": ["validation errors"]}, 400
-            )
+                return make_response(
+                    guestlist.to_dict(), 201
+                )
+            except ValueError:
+                return make_response(
+                    {"errors": ["validation errors"]}, 400
+                )
 
 
 class GuestListById(Resource):

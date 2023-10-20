@@ -5,7 +5,7 @@ import { Button, Form, Message } from 'semantic-ui-react'
 
 export const GuestForm = ({ refreshPage, setRefreshPage }) => {
   const [showForm, setShowForm] = useState(false);
-  const [showErrorEmailMessage, setShowErrorEmailMessage] = useState(false)
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
   const [showSuccessRegistration, setShowSuccessRegistration] = useState(false)
 
   useEffect(() => {
@@ -44,12 +44,12 @@ export const GuestForm = ({ refreshPage, setRefreshPage }) => {
       }).then((res) => {
         if (res.status === 201) {
           setRefreshPage(!refreshPage);
-          setShowErrorEmailMessage(false)
+          setShowErrorMessage(false)
           setShowSuccessRegistration(true)
           resetForm();
         }
         if (res.status === 400) {
-          setShowErrorEmailMessage(true)
+          setShowErrorMessage(true)
           setShowSuccessRegistration(false)
         }
       });
@@ -105,7 +105,7 @@ export const GuestForm = ({ refreshPage, setRefreshPage }) => {
             />
             <p style={{ color: "red" }}> {formik.errors.phone_number}</p>
           </Form.Field>
-          {showErrorEmailMessage ? <Message style={{ margin: "auto", width: "250px", marginBottom: "20px", color: '#E06469'}} header="Attention Required" content="Email has already been registered"></Message> : ""}
+          {showErrorMessage ? <Message style={{ margin: "auto", width: "250px", marginBottom: "20px", color: '#E06469'}} header="Attention Required" content="Input(s) Invalid"></Message> : ""}
           {showSuccessRegistration ? <Message style={{ margin: "auto", width: "250px", marginBottom: "20px", color: '#19A7CE'}} header="Registration Completed" content="You're ready to start a party!"></Message> : ""}
           <Button style={{ background: "#AFD3E2" }} type="submit">
             Submit

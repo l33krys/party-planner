@@ -6,6 +6,7 @@ import { Button, Form, Message } from 'semantic-ui-react'
 export const FoodForm = ({ refreshPage, setRefreshPage }) => {
   const [showForm, setShowForm] = useState(false);
   const [showFoodSuccess, setShowFoodSuccess] = useState(false)
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
 
   const formSchema = yup.object().shape({
     item: yup.string().required("Must enter party name"),
@@ -45,9 +46,14 @@ export const FoodForm = ({ refreshPage, setRefreshPage }) => {
           }, null, 2),
       }).then((res) => {
         if (res.status == 201) {
-          resetForm()
           setRefreshPage(!refreshPage);
-          setShowFoodSuccess(!showFoodSuccess)
+          setShowErrorMessage(false)
+          setShowFoodSuccess(true)
+          resetForm();
+        }
+        if (res.status === 400){
+          setShowErrorMessage(true)
+          setShowFoodSuccess(false)
         }
       });
     },
@@ -111,6 +117,7 @@ export const FoodForm = ({ refreshPage, setRefreshPage }) => {
         <p style={{ color: "red" }}> {formik.errors.guest_id}</p>
         </Form.Field>
         <Button style={{ background: "#AFD3E2" }} type="submit">Submit</Button>
+        {showErrorMessage ? <Message style={{ margin: "auto", width: "350px", marginTop: "20px", color: '#E06469'}} header="Attention Required" content="Input(s) Invalid"></Message> : ""}
         {showFoodSuccess ? <Message
         style={{ margin: "auto", width: "350px", marginTop: "20px", color: '#19A7CE'}}
                         header="Success: Food Created & Assigned"

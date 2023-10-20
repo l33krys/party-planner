@@ -9,8 +9,8 @@ export const AddToPartyForm = ({ parties, guests, selectedGuest, setShowAddToPar
   // const [showSuccessMessage, setShowSuccessMessage] = useState(false)
 
   const formSchema = yup.object().shape({
-    guest_id: yup.number().max(guests.length, "Must be valid party ID").required("Must enter valid Guest ID"),
-    party_id: yup.number().max(parties.length, "Must be valid party ID").required("Must enter valid Party ID"),
+    guest_id: yup.number().max(guests.length, "Must be a valid party ID").required("Must enter valid Guest ID"),
+    party_id: yup.number().max(parties.length, "Must be a valid party ID").required("Must enter valid Party ID"),
   });
 
   const formik = useFormik({

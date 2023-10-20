@@ -1,7 +1,7 @@
 import React from "react";
-import { Table, Button} from 'semantic-ui-react'
+import { Table} from 'semantic-ui-react'
 
-export const RSVPList = ({ RSVPs, setRSVPs, refreshPage, setRefreshPage, handleDeleteRSVP }) => {
+export const RSVPList = ({ RSVPs }) => {
 
   const sortedRSVPs = RSVPs.sort((a, b) => {
     const partyA = a.party.name.toUpperCase();
@@ -23,19 +23,6 @@ export const RSVPList = ({ RSVPs, setRSVPs, refreshPage, setRefreshPage, handleD
     acc[partyName].push(rsvp);
     return acc;
   }, {});
-
-  // function handleDeleteRSVP(delRSVP) {
-  //   fetch(`http://127.0.0.1:5555/guest_lists/${delRSVP.id}`, {
-  //       method: "DELETE"
-  //   })
-  //   .then(() => {
-  //       const updatedRSVPs = RSVPs.filter(
-  //           (rsvp) => rsvp.id != delRSVP.id
-  //       )
-  //       setRSVPs(updatedRSVPs)
-  //       setRefreshPage(!refreshPage)
-  //   })
-  // }
 
   return (
     <div style={{ width: '75%', margin: '0 auto' }}>

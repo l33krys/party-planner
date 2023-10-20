@@ -1,20 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PartyForm from "./PartyForm";
 import PartyList from "./PartyList"
 
 function PartyPage({ parties, setParties, refreshPage, setRefreshPage }) {
-
-    // const [parties, setParties] = useState([{}]);
-    // const [refreshPage, setRefreshPage] = useState(false);
-
-    // useEffect(() => {
-    //   fetch("http://localhost:5555/parties")
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       setParties(data);
-    //       console.log("FETCH PARTIES!", data);
-    //     });
-    // }, [refreshPage]);
 
     function addParty(newParty) {
       setParties([...parties, newParty])

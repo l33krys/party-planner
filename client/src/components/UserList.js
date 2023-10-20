@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import * as yup from "yup";
+import React, {  useState } from "react";
 import { Card } from "semantic-ui-react";
 import UserCard from "./UserCard";
 import AddToPartyForm from "./AddToPartyForm";
 
 
-export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refreshGuests, parties, handleDeleteRSVP }) => {
-//   const [showForm, setShowForm] = useState(false)
-  const [editGuest, setEditGuest] = useState([{}])
+export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, parties, handleDeleteRSVP }) => {
   const [selectedParty, setSelectedParty] = useState([{}])
   const [selectedGuest, setSelectedGuest] = useState([{}])
   const [showAddToPartyForm, setShowAddToPartyForm] = useState(false)
@@ -26,20 +22,6 @@ export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refre
     })
 
   }
-
-  function handleEditGuest(editGuest) {
-    fetch(`http://127.0.0.1:5555/guests/${editGuest.id}`, {
-        method: "GET"
-    })
-    .then((r) => r.json())
-    .then(guest => {
-      setEditGuest(guest)
-    //   if (!showForm) {
-    //     setShowForm(!showForm)
-    //   }
-      
-    })
-    }
 
     function handleAddToParty(guest) {
         if (!showAddToPartyForm) {
@@ -70,7 +52,6 @@ export const UserList = ({ guests, setGuests, refreshPage, setRefreshPage, refre
                 key={key} 
                 guest={guest} 
                 handleDeleteGuest={handleDeleteGuest} 
-                handleEditGuest={handleEditGuest} 
                 setSelectedGuest={setSelectedGuest} 
                 handleAddToParty={handleAddToParty}
                 setRefreshPage={setRefreshPage} 

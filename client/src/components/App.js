@@ -31,24 +31,8 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setParties(data);
-        console.log("FETCH PARTIES!", data);
       });
   }, [refreshPage]);
-
-  function addParty(newParty) {
-    setParties([...parties, newParty])
-  }
-
-  function refreshParty(updatedParty) {
-    const updatedParties = parties.map(party => {
-      if (party.id === updatedParty.id) {
-        return {...party, updatedParty}
-      } else {
-        return party
-      }  
-    })
-      setParties(updatedParties)
-  }
   
 
   return (
